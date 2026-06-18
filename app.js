@@ -306,11 +306,15 @@ var _checkout=false;
     var ok=true,bad;
     var nombre=form.nombre.value.trim(), tel=form.telefono.value.replace(/\D/g,""), dir=form.direccion.value.trim();
     bad=nombre.length<2; setInvalid("nombre",bad); if(bad)ok=false;
-    bad=tel.length<8; setInvalid("telefono",bad); if(bad)ok=false;
+    var _ccd=(form.codpais.value||"").replace(/\D/g,"");
+    bad=_ccd==="56"?!/^9\d{8}$/.test(tel):tel.length<8;
+    var _te=$("#telefono").closest(".field").querySelector(".err");
+    if(_te) _te.textContent=(_ccd==="56"&&bad)?"Escribe los 9 dígitos de tu celular (empieza con 9). Ej: 9 1234 5678":"Escribe un teléfono válido.";
+    setInvalid("telefono",bad); if(bad)ok=false;
     bad=dir.length<4; setInvalid("direccion",bad); if(bad)ok=false;
     var hasRegion=$("#region").options.length>1;
     if(hasRegion){ bad=!form.region.value; setInvalid("region",bad); if(bad)ok=false; bad=!form.comuna.value; setInvalid("comuna",bad); if(bad)ok=false; }
-    if(!ok){ var inv=form.querySelector(".invalid"); if(inv) inv.scrollIntoView({behavior:"smooth",block:"center"}); return; }
+    if(!ok){ if(window.__ayudaFormWA) window.__ayudaFormWA(); var inv=form.querySelector(".invalid"); if(inv) inv.scrollIntoView({behavior:"smooth",block:"center"}); return; }
     var qty=parseInt(current.dataset.qty,10), total=parseInt(current.dataset.price,10);
     var data={ sid:SID, producto:PRODUCTO, cantidad:qty, total:total, nombre:nombre, indicativo:form.codpais.value, telefono:telLimpio(), direccion:dir, correo:form.correo.value.trim(), referencia:form.referencia.value.trim(), region:form.region.value, comuna:form.comuna.value, pagina:location.href, fecha:new Date().toLocaleString(C.pais.locale) };
     var btn=$("#submitBtn"); btn.disabled=true; btn.textContent="Enviando…";
@@ -326,4 +330,122 @@ var _checkout=false;
   });
 })();
 
+})();
+
+/* ====== Ayuda WhatsApp si el formulario no avanza ====== */
+(function(){
+  var WA='https://wa.me/'+((window.CONFIG&&CONFIG.whatsapp)||'56920007288');
+  var WAICO='<svg viewBox="0 0 32 32" width="15" height="15" style="vertical-align:-2px;fill:currentColor" aria-hidden="true"><path d="M16 .4C7.4.4.5 7.3.5 15.9c0 2.8.7 5.4 2.1 7.8L.3 31.6l8.1-2.1c2.3 1.3 4.9 1.9 7.6 1.9 8.6 0 15.5-6.9 15.5-15.5S24.6.4 16 .4zm0 28.3c-2.4 0-4.7-.6-6.7-1.9l-.5-.3-4.8 1.3 1.3-4.7-.3-.5c-1.4-2.1-2.1-4.6-2.1-7 0-7.1 5.8-12.9 12.9-12.9S28.9 8.8 28.9 15.9 23.1 28.7 16 28.7zm7.1-9.6c-.4-.2-2.3-1.1-2.6-1.3-.4-.1-.6-.2-.9.2-.3.4-1 1.3-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.3-2.1-2.7-.2-.4 0-.6.2-.8.2-.2.4-.4.6-.7.2-.2.3-.4.4-.7.1-.3 0-.5 0-.7-.1-.2-.9-2.1-1.2-2.9-.3-.8-.6-.7-.9-.7h-.8c-.2 0-.7.1-1 .5-.3.4-1.3 1.3-1.3 3.1s1.3 3.6 1.5 3.8c.2.2 2.6 4 6.3 5.6.9.4 1.6.6 2.1.8.9.3 1.7.2 2.3.1.7-.1 2.3-.9 2.6-1.8.3-.9.3-1.6.2-1.8-.1-.2-.3-.3-.7-.5z"/></svg>';
+  var st=document.createElement('style');
+  st.textContent='.form-help-wa{display:none;margin-top:12px;padding:11px 14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;font-size:13.5px;color:#9a3412;text-align:center;line-height:1.5}.form-help-wa a{color:#16a34a;font-weight:700;text-decoration:none}';
+  document.head.appendChild(st);
+  window.__ayudaFormWA=function(){
+    var btn=document.getElementById('submitBtn'); if(!btn) return;
+    var h=document.getElementById('formHelpWA');
+    if(!h){ h=document.createElement('div'); h.id='formHelpWA'; h.className='form-help-wa';
+      h.innerHTML='¿Tienes algún inconveniente con el formulario? <a href="'+WA+'" target="_blank" rel="noopener">Escríbenos por WhatsApp y te ayudamos '+WAICO+'</a>';
+      btn.parentNode.insertBefore(h, btn.nextSibling); }
+    h.style.display='block';
+  };
+})();
+
+/* ====== Ruleta de premios al entrar (premio: ENVÍO GRATIS) — colores de NAD+ ====== */
+(function(){
+  try{ if(sessionStorage.getItem('jaye_ruleta')) return; }catch(e){}
+  var st=document.createElement('style');
+  st.textContent=
+  '.jrul-ov{position:fixed;inset:0;background:rgba(6,9,18,.82);backdrop-filter:blur(5px);display:grid;place-items:center;z-index:99998;padding:16px}'+
+  '.jrul-ov[hidden]{display:none}'+
+  '.jrul-card{position:relative;width:100%;max-width:360px;background:linear-gradient(160deg,#0d1726,#070d1a);border:1px solid var(--acc,#00d6a8);border-radius:24px;padding:24px 20px 26px;text-align:center;color:#fff;font-family:var(--ff,sans-serif);box-shadow:0 26px 80px rgba(0,0,0,.6)}'+
+  '.jrul-x{position:absolute;top:10px;right:14px;background:none;border:0;color:#7e8da6;font-size:25px;cursor:pointer;line-height:1}'+
+  '.jrul-k{display:inline-block;background:rgba(0,214,168,.12);color:var(--acc,#00d6a8);border:1px solid var(--acc,#00d6a8);font-weight:800;font-size:11px;padding:5px 12px;border-radius:999px;letter-spacing:.04em}'+
+  '.jrul-card h2{font-family:var(--fh,inherit);font-size:22px;font-weight:800;margin:10px 0 2px;color:#fff}'+
+  '.jrul-sub{color:#a7b6cc;font-size:13.5px;margin-bottom:14px}'+
+  '.jrul-wrap{position:relative;width:272px;height:272px;margin:0 auto 4px}'+
+  '.jrul-ptr{position:absolute;top:-4px;left:50%;transform:translateX(-50%);z-index:5;width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:24px solid #fff;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4))}'+
+  '.jrul-wheel{width:272px;height:272px;border-radius:50%;position:relative;transition:transform 4.6s cubic-bezier(.16,.84,.3,1);border:7px solid #fff;box-shadow:0 0 0 5px rgba(255,255,255,.12),0 16px 44px rgba(0,0,0,.5);background:conic-gradient(var(--pri,#1565d8) 0 60deg,var(--acc,#00d6a8) 60deg 120deg,var(--pri-d,#0a2a54) 120deg 180deg,var(--sec,#22a7e6) 180deg 240deg,var(--acc,#00d6a8) 240deg 300deg,var(--pri,#1565d8) 300deg 360deg)}'+
+  '.jrul-wheel .l{position:absolute;left:50%;top:14px;width:120px;margin-left:-60px;text-align:center;transform-origin:60px 122px;font-family:var(--fh,sans-serif);font-weight:800;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.55);white-space:nowrap;pointer-events:none}'+
+  '.jrul-hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:#fff;z-index:4;display:grid;place-items:center;font-weight:800;color:var(--pri,#1565d8);font-size:11px;font-family:var(--fh,sans-serif)}'+
+  '.jrul-spin{margin-top:16px;width:100%;background:linear-gradient(90deg,var(--acc,#00d6a8),var(--pri,#1565d8));color:#fff;border:0;border-radius:13px;padding:15px;font-family:var(--fh,sans-serif);font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.3)}'+
+  '.jrul-spin:disabled{opacity:.5;cursor:not-allowed}'+
+  '.jrul-foot{color:#7e8da6;font-size:11px;margin-top:10px}'+
+  '.jrul-win{display:none}.jrul-win .em{font-size:48px}.jrul-win h2{font-size:24px;margin:4px 0;color:#fff}'+
+  '.jrul-premio{font-family:var(--fh,sans-serif);font-weight:800;font-size:28px;color:var(--acc,#00d6a8);margin:4px 0}'+
+  '.jrul-win p{color:#a7b6cc;font-size:14px;margin-bottom:16px}'+
+  '.jrul-cta{width:100%;background:linear-gradient(135deg,var(--pri,#1565d8),var(--acc,#00d6a8));color:#fff;border:0;border-radius:13px;padding:15px;font-family:var(--fh,sans-serif);font-weight:800;font-size:16px;cursor:pointer}'+
+  '.jrul-note{margin-top:10px;color:var(--acc,#00d6a8);font-weight:700;font-size:12.5px}';
+  document.head.appendChild(st);
+  var PREM=['ENVÍO GRATIS','5% OFF','REGALO','10% OFF','ENVÍO GRATIS','15% OFF'];
+  var GRATIS=[0,4];
+  var N=PREM.length, SEG=360/N, labels='';
+  for(var i=0;i<N;i++){ labels+='<div class="l" style="transform:rotate('+(i*SEG+SEG/2)+'deg)">'+PREM[i]+'</div>'; }
+  var ov=document.createElement('div'); ov.className='jrul-ov'; ov.hidden=true;
+  ov.innerHTML=
+   '<div class="jrul-card">'+
+    '<button class="jrul-x" aria-label="Cerrar">&times;</button>'+
+    '<div class="jrul-intro">'+
+      '<span class="jrul-k">SOLO POR HOY</span>'+
+      '<h2>¡Gira y gana tu premio!</h2><div class="jrul-sub">Tienes 1 giro gratis. ¡Mucha suerte!</div>'+
+      '<div class="jrul-wrap"><div class="jrul-ptr"></div><div class="jrul-wheel">'+labels+'</div><div class="jrul-hub">GIRA</div></div>'+
+      '<button class="jrul-spin">GIRAR LA RULETA</button>'+
+      '<div class="jrul-foot">Válido solo en tu compra de hoy · pago contra entrega</div>'+
+    '</div>'+
+    '<div class="jrul-win">'+
+      '<div class="em">🎉</div><h2>¡Felicidades!</h2>'+
+      '<div class="jrul-premio">ENVÍO GRATIS</div>'+
+      '<p>¡Tu envío gratis quedó activo en tu compra de hoy!</p>'+
+      '<button class="jrul-cta">¡Empezar a comprar!</button>'+
+      '<div class="jrul-note">Envío gratis aplicado</div>'+
+    '</div>'+
+   '</div>';
+  document.body.appendChild(ov);
+  var wheel=ov.querySelector('.jrul-wheel'), spin=ov.querySelector('.jrul-spin');
+  var girando=false, giro=0;
+  function cerrar(){ ov.hidden=true; }
+  function entrarPagina(){ cerrar(); try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); } }
+  function fiesta(){ if(typeof confetti!=='function') return; confetti({particleCount:120,spread:80,origin:{y:.4}}); }
+  function girar(){ if(girando) return; girando=true; spin.disabled=true;
+    var idx=GRATIS[Math.floor(Math.random()*GRATIS.length)], centro=idx*SEG+SEG/2, jit=(Math.random()*0.6-0.3)*SEG;
+    giro+=360*6+(360-(centro+jit)); wheel.style.transform='rotate('+giro+'deg)';
+    setTimeout(function(){ ov.querySelector('.jrul-intro').style.display='none'; ov.querySelector('.jrul-win').style.display='block'; fiesta(); setTimeout(entrarPagina,1500); },4700);
+  }
+  function _spinTap(e){ if(e&&e.target&&(e.target.closest('.jrul-x')||e.target.closest('.jrul-cta'))) return; var win=ov.querySelector('.jrul-win'); if(win&&win.style.display==='block') return; girar(); }
+  ov.querySelector('.jrul-x').addEventListener('click',cerrar);
+  ov.querySelector('.jrul-cta').addEventListener('click',entrarPagina);
+  ov.addEventListener('click',_spinTap);
+  setTimeout(function(){ ov.hidden=false; try{ sessionStorage.setItem('jaye_ruleta','1'); }catch(e){} }, 700);
+})();
+
+/* ====== Aviso al salir (exit-intent) — 1 vez por sesión ====== */
+(function(){
+  var WA='https://wa.me/'+((window.CONFIG&&CONFIG.whatsapp)||'56920007288');
+  var WAICO='<svg viewBox="0 0 32 32" width="15" height="15" style="vertical-align:-2px;fill:currentColor" aria-hidden="true"><path d="M16 .4C7.4.4.5 7.3.5 15.9c0 2.8.7 5.4 2.1 7.8L.3 31.6l8.1-2.1c2.3 1.3 4.9 1.9 7.6 1.9 8.6 0 15.5-6.9 15.5-15.5S24.6.4 16 .4zm0 28.3c-2.4 0-4.7-.6-6.7-1.9l-.5-.3-4.8 1.3 1.3-4.7-.3-.5c-1.4-2.1-2.1-4.6-2.1-7 0-7.1 5.8-12.9 12.9-12.9S28.9 8.8 28.9 15.9 23.1 28.7 16 28.7zm7.1-9.6c-.4-.2-2.3-1.1-2.6-1.3-.4-.1-.6-.2-.9.2-.3.4-1 1.3-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.3-2.1-2.7-.2-.4 0-.6.2-.8.2-.2.4-.4.6-.7.2-.2.3-.4.4-.7.1-.3 0-.5 0-.7-.1-.2-.9-2.1-1.2-2.9-.3-.8-.6-.7-.9-.7h-.8c-.2 0-.7.1-1 .5-.3.4-1.3 1.3-1.3 3.1s1.3 3.6 1.5 3.8c.2.2 2.6 4 6.3 5.6.9.4 1.6.6 2.1.8.9.3 1.7.2 2.3.1.7-.1 2.3-.9 2.6-1.8.3-.9.3-1.6.2-1.8-.1-.2-.3-.3-.7-.5z"/></svg>';
+  var st=document.createElement('style');
+  st.textContent='.exit-ov{position:fixed;inset:0;background:rgba(6,9,18,.7);display:grid;place-items:center;z-index:99999;padding:18px;animation:exitfade .2s ease}@keyframes exitfade{from{opacity:0}to{opacity:1}}'+
+    '.exit-card{background:#fff;border-radius:22px;max-width:380px;width:100%;padding:30px 24px 26px;text-align:center;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.45)}'+
+    '.exit-x{position:absolute;top:10px;right:15px;border:0;background:none;font-size:27px;cursor:pointer;color:#aaa;line-height:1}'+
+    '.exit-card .em{font-size:46px;line-height:1}.exit-card h3{font-size:22px;margin:8px 0 10px;color:var(--txt-dk,#0c1526);font-weight:800}'+
+    '.exit-card p{font-size:15px;color:#555;line-height:1.55;margin-bottom:18px}.exit-card p b{color:var(--txt-dk,#0c1526)}'+
+    '.exit-card .exit-wa{display:block;margin-top:13px;color:#16a34a;font-weight:700;text-decoration:none;font-size:14px}';
+  document.head.appendChild(st);
+  var shown=false;
+  function yaCompro(){ var ok=document.getElementById('okMsg'); return ok && ok.style.display==='block'; }
+  function showExit(){
+    if(shown||yaCompro()) return;
+    try{ if(sessionStorage.getItem('jaye_exit')) return; sessionStorage.setItem('jaye_exit','1'); }catch(e){}
+    shown=true;
+    var ov=document.createElement('div'); ov.className='exit-ov';
+    ov.innerHTML='<div class="exit-card"><button class="exit-x" aria-label="Cerrar">&times;</button>'+
+      '<div class="em">🎁</div><h3>¡Espera! No te vayas todavía</h3>'+
+      '<p>Esta promoción con <b>envío gratis</b> es <b>solo por hoy</b>. No pagas nada ahora: <b>pagas al recibir</b> en tu casa.</p>'+
+      '<button class="btn btn--acc exit-cta" style="width:100%;display:flex">Quiero completar mi pedido</button>'+
+      '<a class="exit-wa" href="'+WA+'" target="_blank" rel="noopener">o escríbenos por WhatsApp '+WAICO+'</a></div>';
+    document.body.appendChild(ov);
+    function close(){ if(ov.parentNode) ov.parentNode.removeChild(ov); }
+    ov.querySelector('.exit-x').onclick=close;
+    ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
+    ov.querySelector('.exit-cta').onclick=function(){ close(); var p=document.getElementById('pedido'); if(p) p.scrollIntoView({behavior:'smooth'}); };
+  }
+  document.addEventListener('mouseout',function(e){ if(e.clientY<=0 && !e.relatedTarget) showExit(); });
+  try{ history.pushState(null,'',location.href); window.addEventListener('popstate',function(){ if(!shown){ showExit(); history.pushState(null,'',location.href); } }); }catch(e){}
 })();
