@@ -244,7 +244,7 @@ $("#ham").addEventListener("click",function(){ $("#nav").classList.toggle("open"
    BACKEND (igual que las landings que ya venden)
    ============================================================ */
 var SHEET_URL=C.sheetUrl||"", N8N=C.n8nConfirm||"", PANEL=C.panelUrl||"", PRODUCTO=C.producto||"";
-function trackPanel(tipo){ if(!PANEL) return; try{ fetch(PANEL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({tipo:tipo})}).catch(function(){}); }catch(e){} }
+function trackPanel(tipo){ try{ var _p=(C&&C.producto)||""; fetch("https://n8n-production-8a42.up.railway.app/webhook/track-visita",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pagina:_p,producto:_p,tipo:tipo})}).catch(function(){}); }catch(e){} }
 try{ if(!sessionStorage.getItem("jaye_vis")){ sessionStorage.setItem("jaye_vis","1"); trackPanel("visita"); } }catch(e){ trackPanel("visita"); }
 
 /* Meta Pixel: base + PageView se cargan en el <head> del index. Aquí solo se disparan los eventos. */
