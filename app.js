@@ -8,6 +8,9 @@
    ============================================================ */
 (function(){
 const C = window.CONFIG || {};
+/* ---- seguimiento de campaña: captura ?cmp del anuncio (Meta) para atribución exacta por teléfono ---- */
+try{ var _qsC=new URLSearchParams(location.search); var _cmpV=_qsC.get("cmp")||_qsC.get("utm_campaign")||""; if(_cmpV){ try{localStorage.setItem("_cmp",_cmpV);}catch(e){} window._CMP=_cmpV; } else { try{ window._CMP=localStorage.getItem("_cmp")||""; }catch(e){ window._CMP=""; } } }catch(e){ window._CMP=""; }
+window._trackVenta=function(phone){ try{ if(window._CMP&&phone) fetch("https://n8n-production-8a42.up.railway.app/webhook/track-click",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({phone:phone,cmp:window._CMP,producto:(C.producto||""),canal:"pagina"})}).catch(function(){}); }catch(e){} };
 const $ = (s,r)=> (r||document).querySelector(s);
 const $$ = (s,r)=> [].slice.call((r||document).querySelectorAll(s));
 const money = n => "$" + Math.round(n).toLocaleString(C.pais && C.pais.locale || "es-CL");
@@ -321,7 +324,7 @@ var _checkout=false;
     try{
       if(SHEET_URL) await fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});
       if(N8N){ var telWA=(form.codpais.value+"").replace(/\D/g,"")+telLimpio();
-        fetch(N8N,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ customer:{phone:telWA}, shipping_address:{first_name:nombre.split(" ")[0],address1:dir}, order_number:"JG-"+String(Date.now()).slice(-6), line_items:[{title:PRODUCTO,quantity:qty}], total_price:String(total) })}).catch(function(){}); }
+        fetch(N8N,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ customer:{phone:telWA}, shipping_address:{first_name:nombre.split(" ")[0],address1:dir}, order_number:"JG-"+String(Date.now()).slice(-6), line_items:[{title:PRODUCTO,quantity:qty}], total_price:String(total) })}).catch(function(){}); window._trackVenta&&window._trackVenta(telWA); }
       if(abSent) sendSheet(Object.assign(formData(),{tipo:"abandonado",estado:"COMPLETADO"}));
       fb("Purchase",{content_name:PRODUCTO,value:total,currency:C.pais.moneda});
       form.style.display="none"; $("#packs").style.display="none"; document.querySelector(".summary").style.display="none";
