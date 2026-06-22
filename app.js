@@ -315,8 +315,8 @@ var _checkout=false;
     if(_te) _te.textContent=(_ccd==="56"&&bad)?"Escribe los 9 dígitos de tu celular (empieza con 9). Ej: 9 1234 5678":"Escribe un teléfono válido.";
     setInvalid("telefono",bad); if(bad)ok=false;
     bad=dir.length<4; setInvalid("direccion",bad); if(bad)ok=false;
-    var hasRegion=$("#region").options.length>1;
-    if(hasRegion){ bad=!form.region.value; setInvalid("region",bad); if(bad)ok=false; bad=!form.comuna.value; setInvalid("comuna",bad); if(bad)ok=false; }
+    var _esCL=(form.codpais.value||"").replace(/\D/g,"")==="56";
+    if(_esCL){ bad=!form.region.value; setInvalid("region",bad); if(bad)ok=false; bad=!form.comuna.value; setInvalid("comuna",bad); if(bad)ok=false; }
     if(!ok){ if(window.__ayudaFormWA) window.__ayudaFormWA(); var inv=form.querySelector(".invalid"); if(inv) inv.scrollIntoView({behavior:"smooth",block:"center"}); return; }
     var qty=parseInt(current.dataset.qty,10), total=parseInt(current.dataset.price,10);
     var data={ sid:SID, producto:PRODUCTO, cantidad:qty, total:total, nombre:nombre, indicativo:form.codpais.value, telefono:telLimpio(), direccion:dir, correo:form.correo.value.trim(), referencia:form.referencia.value.trim(), region:form.region.value, comuna:form.comuna.value, pagina:location.href, fecha:new Date().toLocaleString(C.pais.locale) };
@@ -324,7 +324,7 @@ var _checkout=false;
     try{
       if(SHEET_URL) await fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});
       if(N8N){ var telWA=(form.codpais.value+"").replace(/\D/g,"")+telLimpio();
-        fetch(N8N,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ customer:{phone:telWA}, shipping_address:{first_name:nombre.split(" ")[0],address1:dir}, order_number:"JG-"+String(Date.now()).slice(-6), line_items:[{title:PRODUCTO,quantity:qty}], total_price:String(total) })}).catch(function(){}); window._trackVenta&&window._trackVenta(telWA); }
+        fetch(N8N,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ customer:{phone:telWA}, shipping_address:{first_name:nombre.split(" ")[0],address1:dir,province:form.region.value,city:form.comuna.value,address2:form.referencia.value.trim(),country_code:form.codpais.value}, order_number:"JG-"+String(Date.now()).slice(-6), line_items:[{title:PRODUCTO,quantity:qty}], total_price:String(total) })}).catch(function(){}); window._trackVenta&&window._trackVenta(telWA); }
       if(abSent) sendSheet(Object.assign(formData(),{tipo:"abandonado",estado:"COMPLETADO"}));
       fb("Purchase",{content_name:PRODUCTO,value:total,currency:C.pais.moneda});
       form.style.display="none"; $("#packs").style.display="none"; document.querySelector(".summary").style.display="none";
