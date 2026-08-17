@@ -249,6 +249,24 @@ try{ if(!sessionStorage.getItem("jaye_vis")){ sessionStorage.setItem("jaye_vis",
 
 /* Meta Pixel: base + PageView se cargan en el <head> del index. Aquí solo se disparan los eventos. */
 function fb(ev,d){ if(window.fbq){ try{ fbq("track",ev,d||{}); }catch(e){} } }
+/* COINCIDENCIA AVANZADA (17-ago-2026). Los eventos del navegador iban SIN un solo
+   dato del cliente y por eso Meta calificaba la coincidencia en 6,1 de 10 y pedia
+   "mejorar la calidad". Aqui le pasamos lo que el cliente YA escribio en el
+   formulario -- telefono, nombre y comuna -- para que Meta pueda reconocerlo.
+   El propio pixel los encripta antes de mandarlos: en claro no salen nunca. */
+function fbUser(){
+  if(!window.fbq || !C.pixelId) return;
+  try{
+    var d = formData(), u = {};
+    var tel = String(d.telefono||"").replace(/\D/g,"");
+    if(tel){ if(tel.length<=9) tel = "56"+tel; u.ph = tel; }
+    var nom = String(d.nombre||"").trim().split(/\s+/)[0]||"";
+    if(nom) u.fn = nom.toLowerCase();
+    if(d.comuna) u.ct = String(d.comuna).toLowerCase().replace(/\s+/g,"");
+    u.country = "cl";
+    if(u.ph || u.fn) fbq("init", C.pixelId, u);
+  }catch(e){}
+}
 fb("ViewContent",{content_name:PRODUCTO,content_type:"product",value:C.precioUnidad,currency:C.pais.moneda});
 var _checkout=false;
 
@@ -299,7 +317,7 @@ var _checkout=false;
   function sendSheet(p){ if(!SHEET_URL) return; try{ fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)}).catch(function(){}); }catch(e){} }
   function formData(){ return { sid:SID, producto:PRODUCTO, cantidad:current?parseInt(current.dataset.qty,10):"", total:current?parseInt(current.dataset.price,10):"", nombre:form.nombre.value.trim(), indicativo:form.codpais.value, telefono:telLimpio(), correo:form.correo.value.trim(), direccion:form.direccion.value.trim(), referencia:form.referencia.value.trim(), region:form.region.value, comuna:form.comuna.value, pagina:location.href, fecha:new Date().toLocaleString(C.pais.locale) }; }
   var abSent=false, abTimer, leadTracked=false;
-  function captureAb(){ if(form.telefono.value.replace(/\D/g,"").length<8) return; abSent=true; sendSheet(Object.assign(formData(),{tipo:"abandonado",estado:"INCOMPLETO"})); if(!leadTracked){ leadTracked=true; fb("Lead",{content_name:PRODUCTO,value:current?+current.dataset.price:C.precioUnidad,currency:C.pais.moneda}); } }
+  function captureAb(){ if(form.telefono.value.replace(/\D/g,"").length<8) return; abSent=true; sendSheet(Object.assign(formData(),{tipo:"abandonado",estado:"INCOMPLETO"})); fbUser(); if(!leadTracked){ leadTracked=true; fb("Lead",{content_name:PRODUCTO,value:current?+current.dataset.price:C.precioUnidad,currency:C.pais.moneda}); } }
   ["telefono","nombre","correo","direccion","referencia"].forEach(function(id){ var e=$("#"+id); if(e) e.addEventListener("blur",function(){ clearTimeout(abTimer); abTimer=setTimeout(captureAb,300); }); });
   ["region","comuna"].forEach(function(id){ var e=$("#"+id); if(e) e.addEventListener("change",function(){ clearTimeout(abTimer); abTimer=setTimeout(captureAb,300); }); });
   form.telefono.addEventListener("input",function(){ if(form.telefono.value.replace(/\D/g,"").length>=8){ clearTimeout(abTimer); abTimer=setTimeout(captureAb,1200); } });
@@ -326,7 +344,7 @@ var _checkout=false;
       if(N8N){ var telWA=(form.codpais.value+"").replace(/\D/g,"")+telLimpio();
         fetch(N8N,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ customer:{phone:telWA}, shipping_address:{first_name:nombre.split(" ")[0],address1:dir,province:form.region.value,city:form.comuna.value,address2:form.referencia.value.trim(),country_code:form.codpais.value}, order_number:"JG-"+String(Date.now()).slice(-6), line_items:[{title:PRODUCTO,quantity:qty}], total_price:String(total) })}).catch(function(){}); window._trackVenta&&window._trackVenta(telWA); }
       if(abSent) sendSheet(Object.assign(formData(),{tipo:"abandonado",estado:"COMPLETADO"}));
-      fb("Purchase",{content_name:PRODUCTO,value:total,currency:C.pais.moneda});
+      fbUser(); fb("Purchase",{content_name:PRODUCTO,value:total,currency:C.pais.moneda});
       form.style.display="none"; $("#packs").style.display="none"; document.querySelector(".summary").style.display="none";
       set("okName",nombre.split(" ")[0]); $("#okMsg").style.display="block"; $("#okMsg").scrollIntoView({behavior:"smooth",block:"center"});
     }catch(err){ btn.disabled=false; btn.textContent="COMPRAR (pagar al recibir)"; alert("Hubo un problema al enviar. Intenta de nuevo o escríbenos por WhatsApp."); }
