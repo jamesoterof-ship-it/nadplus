@@ -64,15 +64,15 @@ h2.sec{font-size:clamp(26px,6.4vw,40px);font-weight:800;margin-bottom:12px;lette
 
 /* ===== HERO full-bleed ===== */
 .hero{position:relative;color:#fff;overflow:hidden;min-height:88svh;display:flex;isolation:isolate;background:var(--ink);padding:0}
-.hero__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 72%;z-index:0;transform:scale(1.02)}
+.hero__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 88%;z-index:0;transform:scale(1.02)}
 .hero__fx{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;mix-blend-mode:screen;opacity:.85}
 .hero__scrim{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(10,8,2,.94) 0%,rgba(10,8,2,.45) 26%,rgba(5,10,20,0) 38%,rgba(5,10,20,0) 72%,rgba(5,10,20,.4) 86%,rgba(5,10,20,.92) 98%)}
 .hero__in{position:relative;z-index:3;width:100%;max-width:var(--maxw);margin:0 auto;display:flex;flex-direction:column;gap:18px;padding:14px 22px 24px;min-height:88svh}
 .hero__top{display:flex;flex-direction:column;align-items:flex-start}
-.kicker{display:inline-flex;align-items:center;gap:7px;background:rgba(52,224,196,.12);border:1px solid rgba(52,224,196,.4);color:#7ff3df;padding:6px 13px;border-radius:999px;font-size:11.5px;font-weight:600;letter-spacing:.03em;margin-bottom:10px;backdrop-filter:blur(6px)}
+.kicker{display:inline-flex;align-items:center;gap:7px;background:rgba(230,198,90,.14);border:1px solid rgba(230,198,90,.45);color:#f5dd8f;padding:6px 13px;border-radius:999px;font-size:11.5px;font-weight:600;letter-spacing:.03em;margin-bottom:10px;backdrop-filter:blur(6px)}
 .hero h1{font-size:clamp(26px,7vw,50px);font-weight:800;line-height:1.06;letter-spacing:-.03em;margin:0;text-shadow:0 6px 34px rgba(0,0,0,.7);max-width:15ch}
-.hero h1 .hl{color:#43d9f2}
-.hero .lead{font-size:15px;line-height:1.5;font-weight:400;color:#dbe6f5;text-shadow:0 2px 16px rgba(0,0,0,.7);max-width:38ch;margin:9px 0 0}
+.hero h1 .hl{color:var(--sec)}
+.hero .lead{font-size:15px;line-height:1.5;font-weight:400;color:#efe6cf;text-shadow:0 2px 16px rgba(0,0,0,.7);max-width:38ch;margin:9px 0 0}
 .ministrip{background:var(--bg2);border-bottom:1px solid var(--line);padding:18px 22px}
 .hero__mini{display:flex;justify-content:space-between;gap:6px;max-width:var(--maxw);margin:0 auto}
 .hm{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}

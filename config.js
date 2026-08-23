@@ -20,9 +20,9 @@ window.CONFIG = {
   pais: { nombre:"Chile", cc:"cl", prefijo:"+56", moneda:"CLP", locale:"es-CL" },
 
   /* ---- Hero ---- */
-  heroKicker: "El secreto del volumen sin extensiones",
-  heroTitle: 'Pestañas <span class="hl">largas y con volumen</span> desde la primera pasada',
-  heroLead: "Fibras que se adhieren a cada pestaña y la alargan de verdad. El cepillo las separa una a una: volumen real, sin grumos, sin postizas y a prueba de agua.",
+  heroKicker: "Volumen sin extensiones",
+  heroTitle: 'Pestañas <span class="hl">largas y con volumen</span>',
+  heroLead: "Volumen real, sin grumos y a prueba de agua. Pagas al recibir.",
   heroTag: "Envío gratis a todo Chile",
   badges: ["👁️ Volumen real", "💧 A prueba de agua", "🚚 Pago al recibir"],
 

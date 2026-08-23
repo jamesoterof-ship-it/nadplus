@@ -265,14 +265,16 @@ fbq('track','PageView');
     <div class="gseal" data-rv>
       <svg viewBox="0 0 220 220" role="img" aria-label="Garantía de devolución de 30 días">
         <defs>
-          <linearGradient id="gsealg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="var(--pri)"/><stop offset="1" stop-color="var(--acc)"/>
-          </linearGradient>
+          <radialGradient id="gsealg" cx="0.34" cy="0.28" r="0.95">
+            <stop offset="0" stop-color="#f9ecb8"/><stop offset="0.38" stop-color="#e6c65a"/><stop offset="0.68" stop-color="#c9a227"/><stop offset="1" stop-color="#8f741c"/>
+          </radialGradient>
           <path id="gtop" fill="none" d="M44 110a66 66 0 0 1 132 0"/>
           <path id="gbot" fill="none" d="M48 118a62 62 0 0 0 124 0"/>
         </defs>
         <circle cx="110" cy="110" r="98" fill="url(#gsealg)" opacity=".16"/>
-        <circle cx="110" cy="110" r="92" fill="url(#gsealg)"/>
+        <circle cx="110" cy="110" r="92" fill="url(#gsealg)" stroke="#8f741c" stroke-width="3"/>
+        <ellipse cx="86" cy="72" rx="46" ry="26" fill="#ffffff" opacity="0.28"/>
+        <circle cx="110" cy="110" r="92" fill="none" stroke="#5e4c12" stroke-opacity=".35" stroke-width="6" transform="translate(0,3)"/>
         <circle cx="110" cy="110" r="84" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2" stroke-dasharray="1.5 6" stroke-linecap="round"/>
         <text font-family="Sora,sans-serif" font-weight="700" font-size="14.5" letter-spacing="2.4" fill="#fff"><textPath href="#gtop" startOffset="50%" text-anchor="middle">GARANTÍA TOTAL</textPath></text>
         <text font-family="Sora,sans-serif" font-weight="700" font-size="12.5" letter-spacing="1.8" fill="#fff"><textPath href="#gbot" startOffset="50%" text-anchor="middle">DEVOLUCIÓN 100%</textPath></text>
