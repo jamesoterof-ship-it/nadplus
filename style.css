@@ -180,7 +180,7 @@ h2.sec{font-size:clamp(26px,6.4vw,40px);font-weight:800;margin-bottom:12px;lette
 .imgcards{padding:20px 0 4px}
 .imgcards .wrap{padding:0 16px}
 .imgcard{background:var(--card);border:1px solid var(--line2);border-radius:18px;padding:10px;margin-bottom:8px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s,border-color .25s}
-.imgcard:hover{transform:translateY(-4px);border-color:var(--pri);box-shadow:0 18px 40px rgba(46,123,255,.25)}
+.imgcard:hover{transform:translateY(-4px);border-color:var(--pri);box-shadow:0 18px 40px rgba(201,162,39,.25)}
 .imgcard:active{transform:translateY(-1px) scale(.99)}
 .imgcard__ph{border-radius:12px;overflow:hidden;position:relative}
 .imgcard img{width:100%;display:block;border-radius:12px;transition:transform .5s ease}
@@ -239,8 +239,8 @@ h2.sec{font-size:clamp(26px,6.4vw,40px);font-weight:800;margin-bottom:12px;lette
 .benefits{display:flex;flex-direction:column}
 .bi{display:flex;align-items:center;gap:16px;text-align:left;padding:18px 4px;border-bottom:1px solid var(--line);transition:.3s}
 .bi:last-child{border-bottom:0}
-.bi .ico{flex:0 0 52px;width:52px;height:52px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line2);background:radial-gradient(circle at 50% 35%,rgba(46,123,255,.2),transparent 70%);transition:.35s}
-.bi:hover .ico{border-color:var(--pri);box-shadow:0 0 0 5px rgba(46,123,255,.12),0 0 26px rgba(46,123,255,.4)}
+.bi .ico{flex:0 0 52px;width:52px;height:52px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line2);background:radial-gradient(circle at 50% 35%,rgba(201,162,39,.2),transparent 70%);transition:.35s}
+.bi:hover .ico{border-color:var(--pri);box-shadow:0 0 0 5px rgba(201,162,39,.12),0 0 26px rgba(201,162,39,.4)}
 .bi .ico svg{width:26px;height:26px;stroke:var(--acc);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .bi .ico svg path,.bi .ico svg circle,.bi .ico svg line,.bi .ico svg rect,.bi .ico svg polyline,.bi .ico svg ellipse{stroke-dasharray:var(--dl,220);stroke-dashoffset:var(--dl,220);transition:stroke-dashoffset 1.2s ease}
 .bi.in .ico svg path,.bi.in .ico svg circle,.bi.in .ico svg line,.bi.in .ico svg rect,.bi.in .ico svg polyline,.bi.in .ico svg ellipse{stroke-dashoffset:0}
@@ -287,7 +287,7 @@ h2.sec{font-size:clamp(26px,6.4vw,40px);font-weight:800;margin-bottom:12px;lette
 .light .cod-badge{background:#faf3dc;color:#8a6d0f;border-color:#e6d391}
 .light .cod-badge svg{stroke:#8a6d0f}
 .light .pack{background:#fff;border-color:#e7dcc0}
-.light .pack.sel{border-color:var(--pri);background:#faf3e0;box-shadow:0 0 0 3px rgba(46,123,255,.12)}
+.light .pack.sel{border-color:var(--pri);background:#faf3e0;box-shadow:0 0 0 3px rgba(201,162,39,.12)}
 .light .pack .radio{border-color:#d9cba6}
 .light .pack .info .t{color:var(--txt-dk)}
 .light .pack .pr .n{color:var(--txt-dk)}
@@ -317,7 +317,7 @@ h2.sec{font-size:clamp(26px,6.4vw,40px);font-weight:800;margin-bottom:12px;lette
 .faq details:hover{border-color:var(--line2)}
 
 /* CTA final (oscuro, acordado) */
-.ctafinal{background:radial-gradient(120% 90% at 50% 0%,rgba(46,123,255,.16),transparent 60%),var(--bg2);border-top:1px solid var(--line);padding:72px 0}
+.ctafinal{background:radial-gradient(120% 90% at 50% 0%,rgba(201,162,39,.16),transparent 60%),var(--bg2);border-top:1px solid var(--line);padding:72px 0}
 .ctafinal .sec-sub{margin-bottom:22px}
 
 /* ===== Cómo actúa / Ciencia ===== */
@@ -336,7 +336,7 @@ h2.sec{font-size:clamp(26px,6.4vw,40px);font-weight:800;margin-bottom:12px;lette
 @keyframes btnBounce{0%,18%,42%,68%,100%{transform:translateY(0)}30%{transform:translateY(-9px)}54%{transform:translateY(-4px)}}
 
 /* ===== Oferta ===== */
-.offsec{padding-top:16px;background:radial-gradient(120% 80% at 50% 0%,rgba(46,123,255,.14),transparent 60%),var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.offsec{padding-top:16px;background:radial-gradient(120% 80% at 50% 0%,rgba(201,162,39,.14),transparent 60%),var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .offer{color:#fff;text-align:center;position:relative}
 .offer h2{font-size:26px;font-weight:800;margin-bottom:6px;position:relative}
 .offer p{position:relative;color:var(--txt)}
@@ -389,7 +389,7 @@ p.cd-title{margin:22px 0 0;text-align:center;font-family:var(--fh);font-weight:7
 .compare .cmpi{width:20px;height:20px;display:inline-block;vertical-align:middle}
 /* efecto en las filas */
 .compare tbody tr{transition:background .25s}
-.compare tbody tr:hover,.compare tbody tr:active{background:rgba(46,123,255,.08)}
+.compare tbody tr:hover,.compare tbody tr:active{background:rgba(201,162,39,.08)}
 
 /* ===== Reseñas (dark) ===== */
 .reviews .rev-head{display:flex;align-items:center;gap:16px;margin-bottom:18px}
@@ -443,7 +443,7 @@ p.cd-title{margin:22px 0 0;text-align:center;font-family:var(--fh);font-weight:7
 .packs{display:grid;gap:11px;margin-bottom:16px}
 .pack{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line2);border-radius:15px;padding:12px;cursor:pointer;position:relative;transition:.2s;background:var(--bg2)}
 .pack:hover{border-color:var(--line2)}
-.pack.sel{border-color:var(--pri);background:rgba(46,123,255,.08);box-shadow:0 0 0 3px rgba(46,123,255,.12)}
+.pack.sel{border-color:var(--pri);background:rgba(201,162,39,.08);box-shadow:0 0 0 3px rgba(201,162,39,.12)}
 .pack .radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--line2);flex:0 0 auto}
 .pack.sel .radio{border-color:var(--pri);background:radial-gradient(circle,var(--pri) 42%,transparent 46%)}
 .pack .thumb{width:46px;height:46px;border-radius:10px;object-fit:cover}
@@ -458,7 +458,7 @@ p.cd-title{margin:22px 0 0;text-align:center;font-family:var(--fh);font-weight:7
 .field label{display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:var(--txt)}
 .field input,.field select{width:100%;border:1.5px solid var(--line2);border-radius:12px;padding:12px;font-family:var(--ff);font-size:15px;background:var(--bg2);color:#fff}
 .field input::placeholder{color:var(--txt2)}
-.field input:focus,.field select:focus{outline:0;border-color:var(--pri);box-shadow:0 0 0 3px rgba(46,123,255,.16)}
+.field input:focus,.field select:focus{outline:0;border-color:var(--pri);box-shadow:0 0 0 3px rgba(201,162,39,.16)}
 .field select option{background:var(--bg2);color:#fff}
 .field .err{display:none;color:var(--rojo);font-size:12.5px;margin-top:4px}
 .field.invalid input,.field.invalid select{border-color:var(--rojo)}
