@@ -275,13 +275,21 @@ function fbUser(){
   if(!window.fbq || !C.pixelId) return;
   try{
     var d = formData(), u = {};
+    // telefono con el indicativo real que eligio el cliente (no forzamos Chile)
+    var cc  = String(d.indicativo||"+56").replace(/\D/g,"") || "56";
     var tel = String(d.telefono||"").replace(/\D/g,"");
-    if(tel){ if(tel.length<=9) tel = "56"+tel; u.ph = tel; }
-    var nom = String(d.nombre||"").trim().split(/\s+/)[0]||"";
-    if(nom) u.fn = nom.toLowerCase();
+    if(tel){ u.ph = (tel.indexOf(cc)===0 ? tel : cc+tel); }
+    // correo: es lo que Meta más valora para reconocer a la persona
+    var mail = String(d.correo||"").trim().toLowerCase();
+    if(mail.indexOf("@")>0) u.em = mail;
+    // nombre y apellido por separado
+    var partes = String(d.nombre||"").trim().split(/\s+/).filter(Boolean);
+    if(partes[0]) u.fn = partes[0].toLowerCase();
+    if(partes.length>1) u.ln = partes.slice(1).join(" ").toLowerCase();
     if(d.comuna) u.ct = String(d.comuna).toLowerCase().replace(/\s+/g,"");
-    u.country = "cl";
-    if(u.ph || u.fn) fbq("init", C.pixelId, u);
+    if(d.region) u.st = String(d.region).toLowerCase().replace(/\s+/g,"");
+    u.country = ({"56":"cl","57":"co","595":"py","54":"ar","51":"pe","593":"ec","591":"bo","598":"uy","58":"ve","52":"mx","1":"us","34":"es"})[cc] || "cl";
+    if(u.ph || u.em || u.fn) fbq("init", C.pixelId, u);
   }catch(e){}
 }
 fb("ViewContent",{content_name:PRODUCTO,content_type:"product",value:C.precioUnidad,currency:C.pais.moneda});
@@ -336,6 +344,7 @@ var _checkout=false;
   var abSent=false, abTimer, leadTracked=false;
   function captureAb(){ if(form.telefono.value.replace(/\D/g,"").length<8) return; abSent=true; sendSheet(Object.assign(formData(),{tipo:"abandonado",estado:"INCOMPLETO"})); fbUser(); if(!leadTracked){ leadTracked=true; fb("Lead",{content_name:PRODUCTO,value:current?+current.dataset.price:C.precioUnidad,currency:C.pais.moneda}); } }
   ["telefono","nombre","correo","direccion","referencia"].forEach(function(id){ var e=$("#"+id); if(e) e.addEventListener("blur",function(){ clearTimeout(abTimer); abTimer=setTimeout(captureAb,300); }); });
+  var _mail=$("#correo"); if(_mail) _mail.addEventListener("blur",function(){ fbUser(); });
   ["region","comuna"].forEach(function(id){ var e=$("#"+id); if(e) e.addEventListener("change",function(){ clearTimeout(abTimer); abTimer=setTimeout(captureAb,300); }); });
   form.telefono.addEventListener("input",function(){ if(form.telefono.value.replace(/\D/g,"").length>=8){ clearTimeout(abTimer); abTimer=setTimeout(captureAb,1200); } });
 
