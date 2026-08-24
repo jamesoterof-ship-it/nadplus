@@ -223,7 +223,24 @@ $("#ham").addEventListener("click",function(){ $("#nav").classList.toggle("open"
   $("#ccFlag").src="https://flagcdn.com/"+cc+".svg"; set("ccCode",pre); $("#codpais").value=pre;
   var box=$("#cc"), btn=$("#ccBtn"), list=$("#ccList");
   btn.addEventListener("click",function(e){ e.stopPropagation(); list.hidden=!list.hidden; });
-  $$("#ccList button").forEach(function(b){ b.addEventListener("click",function(){ $("#codpais").value=b.dataset.code; $("#ccFlag").src="https://flagcdn.com/"+b.dataset.cc+".svg"; set("ccCode",b.dataset.code); list.hidden=true; }); });
+  window.TELPAIS={ "56":{n:9,ini:/^9/,ej:"9 1234 5678",txt:"9 dígitos, empieza con 9"},
+    "57":{n:10,ini:/^3/,ej:"300 123 4567",txt:"10 dígitos, empieza con 3"},
+    "595":{n:9,ini:/^9/,ej:"981 123 456",txt:"9 dígitos, empieza con 9"},
+    "54":{n:10,ini:/^\d/,ej:"11 1234 5678",txt:"10 dígitos"},
+    "51":{n:9,ini:/^9/,ej:"912 345 678",txt:"9 dígitos, empieza con 9"},
+    "593":{n:9,ini:/^9/,ej:"99 123 4567",txt:"9 dígitos, empieza con 9"},
+    "591":{n:8,ini:/^[67]/,ej:"7123 4567",txt:"8 dígitos"},
+    "598":{n:8,ini:/^9/,ej:"9 123 4567",txt:"8 dígitos, empieza con 9"},
+    "58":{n:10,ini:/^4/,ej:"412 123 4567",txt:"10 dígitos, empieza con 4"},
+    "52":{n:10,ini:/^\d/,ej:"55 1234 5678",txt:"10 dígitos"},
+    "1":{n:10,ini:/^\d/,ej:"305 123 4567",txt:"10 dígitos"},
+    "34":{n:9,ini:/^[67]/,ej:"612 345 678",txt:"9 dígitos"} };
+  window.pintaTelPais=function(code){
+    var cc=String(code||"").replace(/[^0-9]/g,""), r=window.TELPAIS[cc];
+    var inp=$("#telefono"); if(inp) inp.placeholder=r?r.ej:"Número de celular";
+  };
+  $$("#ccList button").forEach(function(b){ b.addEventListener("click",function(){ $("#codpais").value=b.dataset.code; $("#ccFlag").src="https://flagcdn.com/"+b.dataset.cc+".svg"; set("ccCode",b.dataset.code); list.hidden=true; window.pintaTelPais(b.dataset.code); }); });
+  window.pintaTelPais(pre);
   document.addEventListener("click",function(e){ if(!box.contains(e.target)) list.hidden=true; });
 })();
 
@@ -328,9 +345,10 @@ var _checkout=false;
     var nombre=form.nombre.value.trim(), tel=form.telefono.value.replace(/\D/g,""), dir=form.direccion.value.trim();
     bad=nombre.length<2; setInvalid("nombre",bad); if(bad)ok=false;
     var _ccd=(form.codpais.value||"").replace(/\D/g,"");
-    bad=_ccd==="56"?!/^9\d{8}$/.test(tel):tel.length<8;
+    var _rp=(window.TELPAIS||{})[_ccd];
+    bad = _rp ? (tel.length!==_rp.n || !_rp.ini.test(tel)) : (tel.length<7 || tel.length>13);
     var _te=$("#telefono").closest(".field").querySelector(".err");
-    if(_te) _te.textContent=(_ccd==="56"&&bad)?"Escribe los 9 dígitos de tu celular (empieza con 9). Ej: 9 1234 5678":"Escribe un teléfono válido.";
+    if(_te) _te.textContent=(_rp&&bad)?("Escribe tu celular: "+_rp.txt+". Ej: "+_rp.ej):"Escribe un teléfono válido.";
     setInvalid("telefono",bad); if(bad)ok=false;
     bad=dir.length<4; setInvalid("direccion",bad); if(bad)ok=false;
     var _esCL=(form.codpais.value||"").replace(/\D/g,"")==="56";
