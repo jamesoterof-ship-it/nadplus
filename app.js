@@ -371,72 +371,7 @@ var _checkout=false;
   };
 })();
 
-/* ====== Ruleta de premios al entrar (premio: ENVÍO GRATIS) — colores de NAD+ ====== */
-(function(){
-  try{ if(sessionStorage.getItem('jaye_ruleta')) return; }catch(e){}
-  var st=document.createElement('style');
-  st.textContent=
-  '.jrul-ov{position:fixed;inset:0;background:rgba(6,9,18,.82);backdrop-filter:blur(5px);display:grid;place-items:center;z-index:99998;padding:16px}'+
-  '.jrul-ov[hidden]{display:none}'+
-  '.jrul-card{position:relative;width:100%;max-width:360px;background:linear-gradient(160deg,#0d1726,#070d1a);border:1px solid var(--acc,#00d6a8);border-radius:24px;padding:24px 20px 26px;text-align:center;color:#fff;font-family:var(--ff,sans-serif);box-shadow:0 26px 80px rgba(0,0,0,.6)}'+
-  '.jrul-x{position:absolute;top:10px;right:14px;background:none;border:0;color:#7e8da6;font-size:25px;cursor:pointer;line-height:1}'+
-  '.jrul-k{display:inline-block;background:rgba(0,214,168,.12);color:var(--acc,#00d6a8);border:1px solid var(--acc,#00d6a8);font-weight:800;font-size:11px;padding:5px 12px;border-radius:999px;letter-spacing:.04em}'+
-  '.jrul-card h2{font-family:var(--fh,inherit);font-size:22px;font-weight:800;margin:10px 0 2px;color:#fff}'+
-  '.jrul-sub{color:#a7b6cc;font-size:13.5px;margin-bottom:14px}'+
-  '.jrul-wrap{position:relative;width:272px;height:272px;margin:0 auto 4px}'+
-  '.jrul-ptr{position:absolute;top:-4px;left:50%;transform:translateX(-50%);z-index:5;width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:24px solid #fff;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4))}'+
-  '.jrul-wheel{width:272px;height:272px;border-radius:50%;position:relative;transition:transform 4.6s cubic-bezier(.16,.84,.3,1);border:7px solid #fff;box-shadow:0 0 0 5px rgba(255,255,255,.12),0 16px 44px rgba(0,0,0,.5);background:conic-gradient(var(--pri,#1565d8) 0 60deg,var(--acc,#00d6a8) 60deg 120deg,var(--pri-d,#0a2a54) 120deg 180deg,var(--sec,#22a7e6) 180deg 240deg,var(--acc,#00d6a8) 240deg 300deg,var(--pri,#1565d8) 300deg 360deg)}'+
-  '.jrul-wheel .l{position:absolute;left:50%;top:14px;width:120px;margin-left:-60px;text-align:center;transform-origin:60px 122px;font-family:var(--fh,sans-serif);font-weight:800;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.55);white-space:nowrap;pointer-events:none}'+
-  '.jrul-hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:#fff;z-index:4;display:grid;place-items:center;font-weight:800;color:var(--pri,#1565d8);font-size:11px;font-family:var(--fh,sans-serif)}'+
-  '.jrul-spin{margin-top:16px;width:100%;background:linear-gradient(90deg,var(--acc,#00d6a8),var(--pri,#1565d8));color:#fff;border:0;border-radius:13px;padding:15px;font-family:var(--fh,sans-serif);font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.3)}'+
-  '.jrul-spin:disabled{opacity:.5;cursor:not-allowed}'+
-  '.jrul-foot{color:#7e8da6;font-size:11px;margin-top:10px}'+
-  '.jrul-win{display:none}.jrul-win .em{font-size:48px}.jrul-win h2{font-size:24px;margin:4px 0;color:#fff}'+
-  '.jrul-premio{font-family:var(--fh,sans-serif);font-weight:800;font-size:28px;color:var(--acc,#00d6a8);margin:4px 0}'+
-  '.jrul-win p{color:#a7b6cc;font-size:14px;margin-bottom:16px}'+
-  '.jrul-cta{width:100%;background:linear-gradient(135deg,var(--pri,#1565d8),var(--acc,#00d6a8));color:#fff;border:0;border-radius:13px;padding:15px;font-family:var(--fh,sans-serif);font-weight:800;font-size:16px;cursor:pointer}'+
-  '.jrul-note{margin-top:10px;color:var(--acc,#00d6a8);font-weight:700;font-size:12.5px}';
-  document.head.appendChild(st);
-  var PREM=['ENVÍO GRATIS','5% OFF','REGALO','10% OFF','ENVÍO GRATIS','15% OFF'];
-  var GRATIS=[0,4];
-  var N=PREM.length, SEG=360/N, labels='';
-  for(var i=0;i<N;i++){ labels+='<div class="l" style="transform:rotate('+(i*SEG+SEG/2)+'deg)">'+PREM[i]+'</div>'; }
-  var ov=document.createElement('div'); ov.className='jrul-ov'; ov.hidden=true;
-  ov.innerHTML=
-   '<div class="jrul-card">'+
-    '<button class="jrul-x" aria-label="Cerrar">&times;</button>'+
-    '<div class="jrul-intro">'+
-      '<span class="jrul-k">SOLO POR HOY</span>'+
-      '<h2>¡Gira y gana tu premio!</h2><div class="jrul-sub">Tienes 1 giro gratis. ¡Mucha suerte!</div>'+
-      '<div class="jrul-wrap"><div class="jrul-ptr"></div><div class="jrul-wheel">'+labels+'</div><div class="jrul-hub">GIRA</div></div>'+
-      '<button class="jrul-spin">GIRAR LA RULETA</button>'+
-      '<div class="jrul-foot">Válido solo en tu compra de hoy · pago contra entrega</div>'+
-    '</div>'+
-    '<div class="jrul-win">'+
-      '<div class="em">🎉</div><h2>¡Felicidades!</h2>'+
-      '<div class="jrul-premio">ENVÍO GRATIS</div>'+
-      '<p>¡Tu envío gratis quedó activo en tu compra de hoy!</p>'+
-      '<button class="jrul-cta">¡Empezar a comprar!</button>'+
-      '<div class="jrul-note">Envío gratis aplicado</div>'+
-    '</div>'+
-   '</div>';
-  document.body.appendChild(ov);
-  var wheel=ov.querySelector('.jrul-wheel'), spin=ov.querySelector('.jrul-spin');
-  var girando=false, giro=0;
-  function cerrar(){ ov.hidden=true; }
-  function entrarPagina(){ cerrar(); try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); } }
-  function fiesta(){ if(typeof confetti!=='function') return; confetti({particleCount:120,spread:80,origin:{y:.4}}); }
-  function girar(){ if(girando) return; girando=true; spin.disabled=true;
-    var idx=GRATIS[Math.floor(Math.random()*GRATIS.length)], centro=idx*SEG+SEG/2, jit=(Math.random()*0.6-0.3)*SEG;
-    giro+=360*6+(360-(centro+jit)); wheel.style.transform='rotate('+giro+'deg)';
-    setTimeout(function(){ ov.querySelector('.jrul-intro').style.display='none'; ov.querySelector('.jrul-win').style.display='block'; fiesta(); setTimeout(entrarPagina,1500); },4700);
-  }
-  function _spinTap(e){ if(e&&e.target&&(e.target.closest('.jrul-x')||e.target.closest('.jrul-cta'))) return; var win=ov.querySelector('.jrul-win'); if(win&&win.style.display==='block') return; girar(); }
-  ov.querySelector('.jrul-x').addEventListener('click',cerrar);
-  ov.querySelector('.jrul-cta').addEventListener('click',entrarPagina);
-  ov.addEventListener('click',_spinTap);
-  setTimeout(function(){ ov.hidden=false; try{ sessionStorage.setItem('jaye_ruleta','1'); }catch(e){} }, 700);
-})();
+/* (ruleta eliminada a pedido del jefe) */
 
 /* ====== Aviso al salir (exit-intent) — 1 vez por sesión ====== */
 (function(){
