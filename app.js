@@ -411,7 +411,10 @@ var _checkout=false;
 
 /* ====== VENTANA POST-COMPRA: oferta del Parche Adelgazante ====== */
 function abrirUpsell(nombre, telWA){
+  var C=window.CONFIG||{};
   var U=C.upsell||{}; if(!(U.precio>0)) return;
+  var money=function(n){ return "$"+Math.round(n).toLocaleString((C.pais&&C.pais.locale)||"es-CL"); };
+  var fb=function(ev,obj){ try{ if(window.fbq) window.fbq("track",ev,obj); }catch(e){} };
   var st=document.createElement("style");
   st.textContent=".upov{position:fixed;inset:0;background:rgba(8,6,2,.93);z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;overflow:auto}"+
   ".upcard{background:#171004;border:1px solid rgba(201,162,39,.5);border-radius:20px;max-width:420px;width:100%;padding:22px;text-align:center;color:#f5efdd;box-shadow:0 30px 80px rgba(0,0,0,.6)}"+
