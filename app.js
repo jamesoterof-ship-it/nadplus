@@ -452,3 +452,6 @@ function abrirUpsell(nombre, telWA){
       });
   });
 }
+
+/* modo demo: nad.jayegroupchile.store/?demoupsell=1 abre la ventana sin comprar */
+try{ if(location.search.indexOf("demoupsell")>=0) setTimeout(function(){ abrirUpsell("María","56900000000"); },600); }catch(e){}

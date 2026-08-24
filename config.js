@@ -127,7 +127,7 @@ window.CONFIG = {
   /* ---- Upsell post-compra (ventana): se enciende poniendo el precio > 0 ---- */
   upsell: {
     nombre: "Parche Adelgazante Slim Patch",
-    precio: 0,
+    precio: 8990,
     img: "img/upsell.webp",
     beneficios: [
       "Caja con 30 parches naturales (un mes completo)",
