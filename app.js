@@ -411,7 +411,6 @@ var _checkout=false;
 
 /* ====== VENTANA POST-COMPRA: oferta del Parche Adelgazante ====== */
 function abrirUpsell(nombre, telWA){
-  try{ if(sessionStorage.getItem("up_vista")) return; }catch(e){}
   var C=window.CONFIG||{};
   var U=C.upsell||{}; if(!(U.precio>0)) return;
   var money=function(n){ return "$"+Math.round(n).toLocaleString((C.pais&&C.pais.locale)||"es-CL"); };
@@ -442,7 +441,6 @@ function abrirUpsell(nombre, telWA){
     '<button class="upsi" id="upSi">SÍ, AGREGARLO A MI PEDIDO</button>'+
     '<button class="upno" id="upNo">No gracias, solo mi pedido</button>'+
   '</div>';
-  try{ sessionStorage.setItem("up_vista","1"); }catch(e){}
   document.body.appendChild(ov);
   fb("ViewContent",{content_name:U.nombre,content_type:"product",value:U.precio,currency:C.pais.moneda});
   ov.querySelector("#upNo").addEventListener("click",function(){ ov.remove(); });
