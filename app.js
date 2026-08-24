@@ -418,17 +418,17 @@ function abrirUpsell(nombre, telWA){
   var fb=function(ev,obj){ try{ if(window.fbq) window.fbq("track",ev,obj); }catch(e){} };
   var st=document.createElement("style");
   st.textContent=".upov{position:fixed;inset:0;background:rgba(8,6,2,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}"+
-  ".upcard{background:#171004;border:1px solid rgba(201,162,39,.5);border-radius:18px;max-width:330px;width:92%;padding:16px;text-align:center;color:#f5efdd;box-shadow:0 24px 60px rgba(0,0,0,.55)}"+
-  ".upcard .tag{display:inline-block;background:linear-gradient(135deg,#c9a227,#e6c65a);color:#161006;font-weight:800;border-radius:999px;padding:6px 14px;font-size:12px;letter-spacing:.04em}"+
+  ".upcard{background:#ffffff;border:2px solid #f5a04a;border-radius:18px;max-width:330px;width:92%;padding:16px;text-align:center;color:#4a3113;box-shadow:0 24px 60px rgba(0,0,0,.45)}"+
+  ".upcard .tag{display:inline-block;background:linear-gradient(135deg,#ee7f1d,#fbaf3f);color:#fff;font-weight:800;border-radius:999px;padding:6px 14px;font-size:12px;letter-spacing:.04em;text-shadow:0 1px 2px rgba(120,60,0,.35)}"+
   ".upcard h3{font-family:var(--fh);font-size:19px;margin:10px 0 2px}"+
-  ".upcard .sub{font-size:12.5px;color:#cdbf9a;margin-bottom:9px}"+
+  ".upcard .sub{font-size:12.5px;color:#8a6a3c;margin-bottom:9px}"+
   ".upcard img{width:52%;max-width:180px;border-radius:12px;margin:4px auto 8px;display:block}"+
   ".upcard ul{list-style:none;padding:0;margin:0 0 12px;text-align:left;display:inline-block}"+
   ".upcard li{font-size:12.5px;margin:4px 0;padding-left:20px;position:relative}"+
-  ".upcard li::before{content:\"✓\";position:absolute;left:0;color:#e6c65a;font-weight:800}"+
-  ".upcard .precio{font-family:var(--fh);font-size:25px;font-weight:800;color:#e6c65a;margin:2px 0 10px}"+
+  ".upcard li::before{content:\"✓\";position:absolute;left:0;color:#2e9e4f;font-weight:800}"+
+  ".upcard .precio{font-family:var(--fh);font-size:25px;font-weight:800;color:#ee7f1d;margin:2px 0 10px}"+
   ".upcard .precio small{font-size:14px;color:#cdbf9a;font-weight:400;display:block}"+
-  ".upsi{width:100%;border:0;border-radius:999px;padding:13px;font-weight:800;font-size:14.5px;background:linear-gradient(135deg,#c9a227,#e6c65a);color:#161006;cursor:pointer}"+
+  ".upsi{width:100%;border:0;border-radius:999px;padding:13px;font-weight:800;font-size:14.5px;background:linear-gradient(135deg,#ee7f1d,#fbaf3f);color:#fff;text-shadow:0 1px 2px rgba(120,60,0,.4);cursor:pointer}"+
   ".upno{width:100%;border:0;background:none;color:#8f8264;margin-top:10px;font-size:13px;cursor:pointer;text-decoration:underline}";
   document.head.appendChild(st);
   var ov=document.createElement("div"); ov.className="upov";
@@ -442,7 +442,6 @@ function abrirUpsell(nombre, telWA){
     '<button class="upsi" id="upSi">SÍ, AGREGARLO A MI PEDIDO</button>'+
     '<button class="upno" id="upNo">No gracias, solo mi pedido</button>'+
   '</div>';
-  ov.addEventListener("click",function(e){ if(e.target===ov) ov.remove(); });
   try{ sessionStorage.setItem("up_vista","1"); }catch(e){}
   document.body.appendChild(ov);
   fb("ViewContent",{content_name:U.nombre,content_type:"product",value:U.precio,currency:C.pais.moneda});
