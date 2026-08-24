@@ -124,9 +124,19 @@ window.CONFIG = {
      "Camila Web", pasa por el panel de aprobación y se monta en
      Dropi con el mismo circuito de WhatsApp. dropiId 149702.
      =========================================================== */
-  /* ---- Upsell en el formulario (se enciende poniendo el precio > 0) ---- */
-  upsell: { nombre:"Parche Adelgazante (30 parches)", precio: 0,
-            desc:"Va en el mismo envío: sin costo de despacho extra." },
+  /* ---- Upsell post-compra (ventana): se enciende poniendo el precio > 0 ---- */
+  upsell: {
+    nombre: "Parche Adelgazante Slim Patch",
+    precio: 0,
+    img: "img/upsell.webp",
+    beneficios: [
+      "Caja con 30 parches naturales (un mes completo)",
+      "Se aplica en el abdomen y listo, sin dietas estrictas",
+      "Complemento ideal para tu rutina",
+      "Va dentro del mismo paquete: cero costo de envío extra"
+    ]
+  },
+  upsellWebhook: "https://n8n-production-8a42.up.railway.app/webhook/upsell-pestanas",
 
   dropiId:   149702,
   sheetUrl:  "",

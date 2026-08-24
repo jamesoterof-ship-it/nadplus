@@ -138,20 +138,7 @@ html("packs", (C.packs||[]).map(function(p,i){
   '</label>';
 }).join(""));
 
-/* ---- upsell: casilla debajo de los packs ---- */
-var upsellOn=false;
-(function(){
-  var U=C.upsell||{}; if(!(U.precio>0)) return;
-  var packsEl=$("#packs"); if(!packsEl) return;
-  var box=document.createElement("label");
-  box.className="pack"; box.id="upsellBox"; box.style.borderStyle="dashed";
-  box.innerHTML='<span class="radio" style="border-radius:6px"></span>'+
-    '<span class="info"><span class="t">➕ '+U.nombre+'</span><span class="s">'+(U.desc||"")+'</span></span>'+
-    '<span class="pr"><span class="n">+'+money(U.precio)+'</span></span>';
-  packsEl.parentNode.insertBefore(box,packsEl.nextSibling);
-  box.addEventListener("click",function(e){ e.preventDefault(); upsellOn=!upsellOn; box.classList.toggle("sel",upsellOn); refresh(); });
-})();
-var packs = $$("#packs .pack").filter(function(p){return p.id!=="upsellBox";});
+var packs = $$("#packs .pack");
 var current = packs.find(function(p){return p.classList.contains("sel");}) || packs[0];
 function selectPack(qty){
   var p = packs.find(function(x){return x.dataset.qty===String(qty);});
@@ -163,9 +150,8 @@ packs.forEach(function(p){ p.addEventListener("click",function(e){ e.preventDefa
 function refresh(){
   if(!current) return;
   var qty=parseInt(current.dataset.qty,10), price=parseInt(current.dataset.price,10);
-  var up=(upsellOn&&C.upsell&&C.upsell.precio>0)?C.upsell.precio:0;
-  var was=parseInt(current.dataset.was,10)||price, sub=was+up, disc=was-price;
-  set("sumSub", money(sub)); set("sumDisc", "-"+money(disc)); set("sumTot", money(price+up));
+  var was=parseInt(current.dataset.was,10)||price, sub=was, disc=sub-price;
+  set("sumSub", money(sub)); set("sumDisc", "-"+money(disc)); set("sumTot", money(price));
 }
 refresh();
 
@@ -351,10 +337,7 @@ var _checkout=false;
     if(_esCL){ bad=!form.region.value; setInvalid("region",bad); if(bad)ok=false; bad=!form.comuna.value; setInvalid("comuna",bad); if(bad)ok=false; }
     if(!ok){ if(window.__ayudaFormWA) window.__ayudaFormWA(); var inv=form.querySelector(".invalid"); if(inv) inv.scrollIntoView({behavior:"smooth",block:"center"}); return; }
     var qty=parseInt(current.dataset.qty,10), total=parseInt(current.dataset.price,10);
-    var _up=(upsellOn&&C.upsell&&C.upsell.precio>0)?C.upsell.precio:0;
-    var _prodEnv=PRODUCTO+(_up?(" + Parche Adelgazante ($"+_up+")"):"");
-    total=total+_up;
-    var data={ sid:SID, producto:_prodEnv, cantidad:qty, total:total, nombre:nombre, indicativo:form.codpais.value, telefono:telLimpio(), direccion:dir, correo:form.correo.value.trim(), referencia:form.referencia.value.trim(), region:form.region.value, comuna:form.comuna.value, pagina:location.href, fecha:new Date().toLocaleString(C.pais.locale) };
+    var data={ sid:SID, producto:PRODUCTO, cantidad:qty, total:total, nombre:nombre, indicativo:form.codpais.value, telefono:telLimpio(), direccion:dir, correo:form.correo.value.trim(), referencia:form.referencia.value.trim(), region:form.region.value, comuna:form.comuna.value, pagina:location.href, fecha:new Date().toLocaleString(C.pais.locale) };
     var btn=$("#submitBtn"); btn.disabled=true; btn.textContent="Enviando…";
     try{
       if(SHEET_URL) await fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});
@@ -365,6 +348,7 @@ var _checkout=false;
       fbUser(); fb("Purchase",{content_name:PRODUCTO,value:total,currency:C.pais.moneda});
       form.style.display="none"; $("#packs").style.display="none"; document.querySelector(".summary").style.display="none";
       set("okName",nombre.split(" ")[0]); $("#okMsg").style.display="block"; $("#okMsg").scrollIntoView({behavior:"smooth",block:"center"});
+      if(C.upsell && C.upsell.precio>0) abrirUpsell(nombre.split(" ")[0], (form.codpais.value+"").replace(/[^0-9]/g,"")+telLimpio());
     }catch(err){ btn.disabled=false; btn.textContent="COMPRAR (pagar al recibir)"; alert("Hubo un problema al enviar. Intenta de nuevo o escríbenos por WhatsApp."); }
   });
 })();
@@ -423,3 +407,48 @@ var _checkout=false;
   document.addEventListener('mouseout',function(e){ if(e.clientY<=0 && !e.relatedTarget) showExit(); });
   try{ history.pushState(null,'',location.href); window.addEventListener('popstate',function(){ if(!shown){ showExit(); history.pushState(null,'',location.href); } }); }catch(e){}
 })();
+
+
+/* ====== VENTANA POST-COMPRA: oferta del Parche Adelgazante ====== */
+function abrirUpsell(nombre, telWA){
+  var U=C.upsell||{}; if(!(U.precio>0)) return;
+  var st=document.createElement("style");
+  st.textContent=".upov{position:fixed;inset:0;background:rgba(8,6,2,.93);z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;overflow:auto}"+
+  ".upcard{background:#171004;border:1px solid rgba(201,162,39,.5);border-radius:20px;max-width:420px;width:100%;padding:22px;text-align:center;color:#f5efdd;box-shadow:0 30px 80px rgba(0,0,0,.6)}"+
+  ".upcard .tag{display:inline-block;background:linear-gradient(135deg,#c9a227,#e6c65a);color:#161006;font-weight:800;border-radius:999px;padding:6px 14px;font-size:12px;letter-spacing:.04em}"+
+  ".upcard h3{font-family:var(--fh);font-size:22px;margin:12px 0 2px}"+
+  ".upcard .sub{font-size:13.5px;color:#cdbf9a;margin-bottom:12px}"+
+  ".upcard img{width:78%;max-width:280px;border-radius:14px;margin:6px auto 10px;display:block}"+
+  ".upcard ul{list-style:none;padding:0;margin:0 0 12px;text-align:left;display:inline-block}"+
+  ".upcard li{font-size:14px;margin:6px 0;padding-left:22px;position:relative}"+
+  ".upcard li::before{content:\"✓\";position:absolute;left:0;color:#e6c65a;font-weight:800}"+
+  ".upcard .precio{font-family:var(--fh);font-size:30px;font-weight:800;color:#e6c65a;margin:4px 0 12px}"+
+  ".upcard .precio small{font-size:14px;color:#cdbf9a;font-weight:400;display:block}"+
+  ".upsi{width:100%;border:0;border-radius:999px;padding:15px;font-weight:800;font-size:16px;background:linear-gradient(135deg,#c9a227,#e6c65a);color:#161006;cursor:pointer}"+
+  ".upno{width:100%;border:0;background:none;color:#8f8264;margin-top:10px;font-size:13px;cursor:pointer;text-decoration:underline}";
+  document.head.appendChild(st);
+  var ov=document.createElement("div"); ov.className="upov";
+  ov.innerHTML='<div class="upcard">'+
+    '<span class="tag">🎁 OFERTA SOLO PARA TI, '+nombre.toUpperCase()+'</span>'+
+    '<h3>'+U.nombre+'</h3>'+
+    '<p class="sub">Antes de despachar tu paquete, agrégalo con UN toque — va en el mismo envío.</p>'+
+    (U.img?'<img src="'+U.img+'" alt="'+U.nombre+'">':'')+
+    '<ul>'+(U.beneficios||[]).map(function(b){return "<li>"+b+"</li>";}).join("")+'</ul>'+
+    '<div class="precio">+'+money(U.precio)+'<small>lo pagas al recibir, junto con tu pedido</small></div>'+
+    '<button class="upsi" id="upSi">SÍ, AGREGARLO A MI PEDIDO</button>'+
+    '<button class="upno" id="upNo">No gracias, solo mi pedido</button>'+
+  '</div>';
+  document.body.appendChild(ov);
+  fb("ViewContent",{content_name:U.nombre,content_type:"product",value:U.precio,currency:C.pais.moneda});
+  ov.querySelector("#upNo").addEventListener("click",function(){ ov.remove(); });
+  ov.querySelector("#upSi").addEventListener("click",function(){
+    var b=ov.querySelector("#upSi"); b.disabled=true; b.textContent="Agregando…";
+    fetch(C.upsellWebhook,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({telefono:telWA})})
+      .then(function(r){return r.json();}).catch(function(){return {};})
+      .then(function(){
+        fb("Purchase",{content_name:U.nombre,value:U.precio,currency:C.pais.moneda});
+        ov.querySelector(".upcard").innerHTML='<h3 style="margin:18px 0 8px">✅ ¡Agregado a tu pedido!</h3><p class="sub">Tu '+U.nombre+' va en el mismo envío. Pagas todo junto al recibir.</p><button class="upsi" id="upOk">Listo</button>';
+        ov.querySelector("#upOk").addEventListener("click",function(){ ov.remove(); });
+      });
+  });
+}
