@@ -427,7 +427,7 @@ function abrirUpsell(nombre, telWA){
   ".upcard li{font-size:12.5px;margin:4px 0;padding-left:20px;position:relative}"+
   ".upcard li::before{content:\"✓\";position:absolute;left:0;color:#2e9e4f;font-weight:800}"+
   ".upcard .precio{font-family:var(--fh);font-size:25px;font-weight:800;color:#ee7f1d;margin:2px 0 10px}"+
-  ".upcard .precio small{font-size:14px;color:#cdbf9a;font-weight:400;display:block}"+
+  ".upcard .precio small{font-size:13px;color:#8a6a3c;font-weight:400;display:block}"+
   ".upsi{width:100%;border:0;border-radius:999px;padding:13px;font-weight:800;font-size:14.5px;background:linear-gradient(135deg,#ee7f1d,#fbaf3f);color:#fff;text-shadow:0 1px 2px rgba(120,60,0,.4);cursor:pointer}"+
   ".upno{width:100%;border:0;background:none;color:#8f8264;margin-top:10px;font-size:13px;cursor:pointer;text-decoration:underline}";
   document.head.appendChild(st);
