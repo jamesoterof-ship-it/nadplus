@@ -420,7 +420,7 @@ function abrirUpsell(nombre, telWA){
   st.textContent=".upov{position:fixed;inset:0;background:rgba(8,6,2,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}"+
   ".upcard{background:#ffffff;border:2px solid #f5a04a;border-radius:18px;max-width:330px;width:92%;padding:16px;text-align:center;color:#4a3113;box-shadow:0 24px 60px rgba(0,0,0,.45)}"+
   ".upcard .tag{display:inline-block;background:linear-gradient(135deg,#ee7f1d,#fbaf3f);color:#fff;font-weight:800;border-radius:999px;padding:6px 14px;font-size:12px;letter-spacing:.04em;text-shadow:0 1px 2px rgba(120,60,0,.35)}"+
-  ".upcard h3{font-family:var(--fh);font-size:19px;margin:10px 0 2px}"+
+  ".upcard h3{font-family:var(--fh);font-size:19px;margin:10px 0 2px;color:#e2711d}"+
   ".upcard .sub{font-size:12.5px;color:#8a6a3c;margin-bottom:9px}"+
   ".upcard img{width:52%;max-width:180px;border-radius:12px;margin:4px auto 8px;display:block}"+
   ".upcard ul{list-style:none;padding:0;margin:0 0 12px;text-align:left;display:inline-block}"+
@@ -452,7 +452,7 @@ function abrirUpsell(nombre, telWA){
       .then(function(r){return r.json();}).catch(function(){return {};})
       .then(function(){
         fb("Purchase",{content_name:U.nombre,value:U.precio,currency:C.pais.moneda});
-        ov.querySelector(".upcard").innerHTML='<h3 style="margin:18px 0 8px">✅ ¡Agregado a tu pedido!</h3><p class="sub">Tu '+U.nombre+' va en el mismo envío. Pagas todo junto al recibir.</p><button class="upsi" id="upOk">Listo</button>';
+        ov.querySelector(".upcard").innerHTML='<h3 style="margin:18px 0 8px;color:#2e9e4f">✅ ¡Agregado a tu pedido!</h3><p class="sub">Tu '+U.nombre+' va en el mismo envío. Pagas todo junto al recibir.</p><button class="upsi" id="upOk">Listo</button>';
         ov.querySelector("#upOk").addEventListener("click",function(){ ov.remove(); });
       });
   });
