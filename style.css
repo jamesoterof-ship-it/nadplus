@@ -5,10 +5,10 @@
    ============================================================ */
 :root{
   --pri:#c9a227; --sec:#e6c65a; --acc:#e6c65a; --pri-d:#191204; --ink:#161006;
-  --bg:#070d1a; --bg2:#0b1322; --bg3:#0f1c33; --card:#0d1726;
+  --bg:#100b03; --bg2:#171105; --bg3:#221808; --card:#191204;
   --light:#ffffff; --light2:#ffffff;
-  --h:#ffffff; --txt:#a7b6cc; --txt2:#8a7b5e; --txt-dk:#0c1526; --soft-dk:#5d6e86;
-  --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.16);
+  --h:#ffffff; --txt:#d8cba9; --txt2:#a39270; --txt-dk:#241a06; --soft-dk:#6b5c3a;
+  --line:rgba(230,198,90,.16); --line2:rgba(230,198,90,.28);
   --rojo:#ff5470; --ok:#e6c65a;
   --r:16px; --r-lg:22px; --maxw:1080px;
   --ff:'Inter',system-ui,sans-serif; --fh:'Sora','Inter',sans-serif;
@@ -39,7 +39,7 @@ h2.sec{font-size:clamp(26px,6.4vw,40px);font-weight:800;margin-bottom:12px;lette
 .marquee{background:var(--bg2);color:var(--txt);overflow:hidden;white-space:nowrap;padding:10px 0;font-weight:500;font-size:12.5px;border-bottom:1px solid var(--line)}
 .marquee--acc{background:linear-gradient(90deg,var(--pri-d),var(--bg2));border-top:1px solid var(--line);border-bottom:0}
 .mq__t{display:inline-flex;gap:34px;animation:mq 26s linear infinite}
-.mq__t span{display:inline-flex;align-items:center;gap:7px;color:var(--txt);letter-spacing:.04em}
+.mq__t span{display:inline-flex;align-items:center;gap:7px;color:var(--sec);letter-spacing:.04em;font-weight:600}
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* header — logo centrado + carrito, transparente al scroll */
