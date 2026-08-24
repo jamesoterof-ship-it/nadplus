@@ -138,7 +138,20 @@ html("packs", (C.packs||[]).map(function(p,i){
   '</label>';
 }).join(""));
 
-var packs = $$("#packs .pack");
+/* ---- upsell: casilla debajo de los packs ---- */
+var upsellOn=false;
+(function(){
+  var U=C.upsell||{}; if(!(U.precio>0)) return;
+  var packsEl=$("#packs"); if(!packsEl) return;
+  var box=document.createElement("label");
+  box.className="pack"; box.id="upsellBox"; box.style.borderStyle="dashed";
+  box.innerHTML='<span class="radio" style="border-radius:6px"></span>'+
+    '<span class="info"><span class="t">➕ '+U.nombre+'</span><span class="s">'+(U.desc||"")+'</span></span>'+
+    '<span class="pr"><span class="n">+'+money(U.precio)+'</span></span>';
+  packsEl.parentNode.insertBefore(box,packsEl.nextSibling);
+  box.addEventListener("click",function(e){ e.preventDefault(); upsellOn=!upsellOn; box.classList.toggle("sel",upsellOn); refresh(); });
+})();
+var packs = $$("#packs .pack").filter(function(p){return p.id!=="upsellBox";});
 var current = packs.find(function(p){return p.classList.contains("sel");}) || packs[0];
 function selectPack(qty){
   var p = packs.find(function(x){return x.dataset.qty===String(qty);});
@@ -150,8 +163,9 @@ packs.forEach(function(p){ p.addEventListener("click",function(e){ e.preventDefa
 function refresh(){
   if(!current) return;
   var qty=parseInt(current.dataset.qty,10), price=parseInt(current.dataset.price,10);
-  var was=parseInt(current.dataset.was,10)||price, sub=was, disc=sub-price;
-  set("sumSub", money(sub)); set("sumDisc", "-"+money(disc)); set("sumTot", money(price));
+  var up=(upsellOn&&C.upsell&&C.upsell.precio>0)?C.upsell.precio:0;
+  var was=parseInt(current.dataset.was,10)||price, sub=was+up, disc=was-price;
+  set("sumSub", money(sub)); set("sumDisc", "-"+money(disc)); set("sumTot", money(price+up));
 }
 refresh();
 
@@ -337,7 +351,10 @@ var _checkout=false;
     if(_esCL){ bad=!form.region.value; setInvalid("region",bad); if(bad)ok=false; bad=!form.comuna.value; setInvalid("comuna",bad); if(bad)ok=false; }
     if(!ok){ if(window.__ayudaFormWA) window.__ayudaFormWA(); var inv=form.querySelector(".invalid"); if(inv) inv.scrollIntoView({behavior:"smooth",block:"center"}); return; }
     var qty=parseInt(current.dataset.qty,10), total=parseInt(current.dataset.price,10);
-    var data={ sid:SID, producto:PRODUCTO, cantidad:qty, total:total, nombre:nombre, indicativo:form.codpais.value, telefono:telLimpio(), direccion:dir, correo:form.correo.value.trim(), referencia:form.referencia.value.trim(), region:form.region.value, comuna:form.comuna.value, pagina:location.href, fecha:new Date().toLocaleString(C.pais.locale) };
+    var _up=(upsellOn&&C.upsell&&C.upsell.precio>0)?C.upsell.precio:0;
+    var _prodEnv=PRODUCTO+(_up?(" + Parche Adelgazante ($"+_up+")"):"");
+    total=total+_up;
+    var data={ sid:SID, producto:_prodEnv, cantidad:qty, total:total, nombre:nombre, indicativo:form.codpais.value, telefono:telLimpio(), direccion:dir, correo:form.correo.value.trim(), referencia:form.referencia.value.trim(), region:form.region.value, comuna:form.comuna.value, pagina:location.href, fecha:new Date().toLocaleString(C.pais.locale) };
     var btn=$("#submitBtn"); btn.disabled=true; btn.textContent="Enviando…";
     try{
       if(SHEET_URL) await fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});

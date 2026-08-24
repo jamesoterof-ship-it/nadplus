@@ -124,6 +124,10 @@ window.CONFIG = {
      "Camila Web", pasa por el panel de aprobación y se monta en
      Dropi con el mismo circuito de WhatsApp. dropiId 149702.
      =========================================================== */
+  /* ---- Upsell en el formulario (se enciende poniendo el precio > 0) ---- */
+  upsell: { nombre:"Parche Adelgazante (30 parches)", precio: 0,
+            desc:"Va en el mismo envío: sin costo de despacho extra." },
+
   dropiId:   149702,
   sheetUrl:  "",
   orderWebhook: "https://n8n-production-8a42.up.railway.app/webhook/pedido-web-pestanas",
