@@ -54,8 +54,8 @@
   function burst() {
     var end = Date.now() + 900;
     (function frame() {
-      confetti({ particleCount: 5, angle: 60, spread: 60, origin: { x: 0 }, colors: ['#c9a227', '#e6c65a', '#f5dd8f', '#ffffff'] });
-      confetti({ particleCount: 5, angle: 120, spread: 60, origin: { x: 1 }, colors: ['#c9a227', '#e6c65a', '#f5dd8f', '#ffffff'] });
+      confetti({ particleCount: 5, angle: 60, spread: 60, origin: { x: 0 }, colors: ['#2196c9', '#4fc3f7', '#7fd6fb', '#ffffff'] });
+      confetti({ particleCount: 5, angle: 120, spread: 60, origin: { x: 1 }, colors: ['#2196c9', '#4fc3f7', '#7fd6fb', '#ffffff'] });
       if (Date.now() < end) requestAnimationFrame(frame);
     })();
   }
@@ -79,18 +79,18 @@
       ctx.lineWidth = 1;
       for (var a = 0; a < P.length; a++) for (var b = a + 1; b < P.length; b++) {
         var dx = P[a].x - P[b].x, dy = P[a].y - P[b].y, d = dx * dx + dy * dy;
-        if (d < 5200) { ctx.strokeStyle = 'rgba(220,185,80,' + (0.1 * (1 - d / 5200)) + ')'; ctx.beginPath(); ctx.moveTo(P[a].x, P[a].y); ctx.lineTo(P[b].x, P[b].y); ctx.stroke(); }
+        if (d < 5200) { ctx.strokeStyle = 'rgba(90,190,235,' + (0.1 * (1 - d / 5200)) + ')'; ctx.beginPath(); ctx.moveTo(P[a].x, P[a].y); ctx.lineTo(P[b].x, P[b].y); ctx.stroke(); }
       }
       for (var i = 0; i < P.length; i++) {
         var p = P[i]; p.y += p.vy; p.x += p.vx;
         if (p.y < -6) { p.y = H + 6; p.x = Math.random() * W; }
         var tw = 0.45 + 0.55 * Math.abs(Math.sin(fr * p.ts + p.tw));  // titileo (destello)
         var al = p.a * tw;
-        ctx.shadowColor = 'rgba(230,198,90,.9)'; ctx.shadowBlur = (p.big ? 10 : 5) * tw;
+        ctx.shadowColor = 'rgba(79,195,247,.9)'; ctx.shadowBlur = (p.big ? 10 : 5) * tw;
         ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (p.big ? 1.25 : 1), 0, 6.2832);
-        ctx.fillStyle = 'rgba(245,225,150,' + al + ')'; ctx.fill();
+        ctx.fillStyle = 'rgba(180,232,252,' + al + ')'; ctx.fill();
         if (p.big && tw > .85) {  // glint en cruz cuando brilla fuerte
-          ctx.strokeStyle = 'rgba(240,214,120,' + (al * .8) + ')'; ctx.beginPath();
+          ctx.strokeStyle = 'rgba(150,220,250,' + (al * .8) + ')'; ctx.beginPath();
           var g = p.r * 4 * tw;
           ctx.moveTo(p.x - g, p.y); ctx.lineTo(p.x + g, p.y); ctx.moveTo(p.x, p.y - g); ctx.lineTo(p.x, p.y + g); ctx.stroke();
         }

@@ -1,0 +1,231 @@
+/* ============================================================
+   Diseño propio de la Clorofila Liquida. Se carga siempre pero
+   TODO cuelga de body.p-clorofila, que solo se pone cuando el
+   producto es este: los otros diez quedan intactos.
+
+   Efectos distintos a los del Organizador a proposito (James,
+   10-sep: "ponle unos efectos diferentes"):
+     Organizador -> texto en cascada · destellos · barrido · conteo
+     Clorofila   -> marea verde · gotas que caen · numero que se
+                    llena · tarjetas que entran de lado · onda
+   ============================================================ */
+body.p-clorofila { --cl-verde: #1F6B3D; --cl-claro: #2F9E5A; --cl-agua: #7BD389; }
+
+/* ---------- HERO ---------- */
+.p-clorofila .cl-hero {
+  /* RECTO: nada de esquinas redondeadas, y de borde a borde de la pantalla.
+     Lo pidio James el 10-sep: "que las lineas se vean rectas". */
+  position: relative; margin: 0 0 14px; border-radius: 0; overflow: hidden;
+  background: #0d2b1a;
+  width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
+}
+/* la foto va en su propio marco: la marea y las gotas se anclan a ELLA, no a
+   todo el hero (que ahora incluye la franja del titulo debajo) */
+.p-clorofila .cl-foto { position: relative; overflow: hidden; line-height: 0; }
+.p-clorofila .cl-foto > img { display: block; width: 100%; height: auto; }
+
+/* la MAREA: un verde que sube desde abajo, como la gota disolviendose.
+   Va sobre la foto y por debajo del texto. */
+.p-clorofila .cl-marea {
+  /* la marea ahora va sobre la FOTO nada mas (no sobre el texto): sube desde
+     el borde de abajo y ahi es solida, para fundirse con la franja del titulo */
+  /* la franja del titulo esta ARRIBA: la marea baja desde el borde de arriba
+     de la foto, solida ahi, y se disuelve antes de llegar al producto */
+  position: absolute; left: 0; right: 0; top: 0; height: 40%;
+  background: linear-gradient(to bottom, rgba(13,43,26,1) 0%, rgba(31,107,61,.5) 40%, rgba(47,158,90,0) 100%);
+  transform: translateY(-28%);
+  animation: cl-subir 1.5s cubic-bezier(.22,.9,.3,1) .15s both;
+  pointer-events: none;
+}
+@keyframes cl-subir { from { transform: translateY(-60%); opacity: .2 } to { transform: translateY(0); opacity: 1 } }
+
+.p-clorofila .cl-sobre {
+  /* REDISEÑO (James, 15-sep): el titulo va ABAJO pero en su propia franja
+     verde, debajo de la foto, no encima del producto. La foto se funde con la
+     franja gracias a la marea, asi que se ve como un solo hero. */
+  position: relative; z-index: 3; margin-bottom: -1px; padding: 18px 18px 12px;
+  color: #fff; text-align: left;
+  background: linear-gradient(to bottom, #123a24 0%, #0d2b1a 100%);
+}
+/* sin velo oscuro arriba (James, 15-sep: "eso oscuro arriba quitalo"): el
+   texto se sostiene solo con su sombra */
+.p-clorofila .cl-h1 { text-shadow: 0 2px 10px rgba(0,0,0,.6), 0 0 24px rgba(0,0,0,.35); }
+.p-clorofila .cl-rot {
+  display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--cl-agua); margin: 0 0 8px;
+  max-width: 100%; white-space: normal; overflow-wrap: anywhere;
+  text-shadow: 0 1px 8px rgba(0,0,0,.55);
+}
+.p-clorofila .cl-h1 {
+  margin: 0; font-size: clamp(30px, 8.6vw, 44px); line-height: 1.03; font-weight: 900;
+  letter-spacing: -.02em; text-shadow: 0 2px 18px rgba(0,0,0,.45);
+  overflow-wrap: anywhere; hyphens: auto;
+}
+.p-clorofila .cl-h1 em { display: block; font-style: normal; color: var(--cl-agua); }
+
+/* ---------- la CASCADA de las letras del hero ----------
+   Cada trozo del texto entra por turno: sube, se destapa y aparece. El
+   retardo lo marca --i, que va en el propio elemento. Si el navegador pide
+   menos movimiento, todo nace visible (ver el bloque de mas abajo). */
+.p-clorofila .cl-cae {
+  display: inline-block;
+  opacity: 0; transform: translateY(26px);
+  animation: cl-entrar .72s cubic-bezier(.2,.85,.3,1) forwards;
+  animation-delay: calc(.18s + var(--i) * .13s);
+}
+@keyframes cl-entrar {
+  from { opacity: 0; transform: translateY(26px) }
+  to   { opacity: 1; transform: translateY(0) }
+}
+.p-clorofila .cl-sobre p { margin: 10px 0 0; font-size: 15px; opacity: .93; max-width: 30ch; }
+
+/* las GOTAS: caen sobre la franja de arriba, donde no hay producto */
+.p-clorofila .cl-gotas { position: absolute; inset: 0 0 45% 0; pointer-events: none; overflow: hidden; }
+.p-clorofila .cl-gotas i {
+  position: absolute; top: -14px; width: 9px; height: 12px; border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  background: radial-gradient(circle at 35% 30%, #b6f0c2, var(--cl-claro));
+  opacity: 0; animation: cl-caer 4.6s linear infinite;
+}
+@keyframes cl-caer {
+  0%   { transform: translateY(0) scale(.85); opacity: 0 }
+  12%  { opacity: .95 }
+  78%  { opacity: .9 }
+  100% { transform: translateY(360px) scale(1.15); opacity: 0 }
+}
+
+/* ---------- tira de datos ---------- */
+.p-clorofila .cl-med {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 16px;
+}
+.p-clorofila .cl-med > div {
+  background: var(--surface-2, #f4f8f5); border: 1px solid rgba(31,107,61,.14);
+  border-radius: 13px; padding: 12px 6px; text-align: center;
+}
+.p-clorofila .cl-med b {
+  display: block; font-size: 25px; font-weight: 900; color: var(--cl-verde); line-height: 1;
+}
+.p-clorofila .cl-med span { display: block; font-size: 11.5px; color: var(--ink-2, #5b6573); margin-top: 5px; }
+
+/* ---------- bloques ---------- */
+/* OJO con el padding: este bloque lo mueve el js hasta antes de section.desc,
+   y ahi queda colgando de main.prod, que NO tiene padding. Las secciones de la
+   tienda traen el suyo (0 16px); sin esta linea el rotulo y el titulo salian
+   pegados al borde de la pantalla. Lo cazo James el 10-sep en su celular. */
+.p-clorofila .cl-blq { margin: 0 0 20px; padding: 0 16px; }
+
+/* El rotulo del hero va sobre la foto y necesita sombra para leerse. Este va
+   sobre blanco: la misma sombra le hacia un halo sucio alrededor de la letra. */
+.p-clorofila .cl-blq .cl-rot { text-shadow: none; }
+/* OJO: este bloque NO lleva boton. La ficha ya trae el suyo justo debajo y
+   dos botones seguidos rompen la regla de James. */
+.p-clorofila .cl-h2 {
+  margin: 6px 0 12px; font-size: clamp(22px, 6.4vw, 30px); line-height: 1.12;
+  font-weight: 900; letter-spacing: -.015em; color: var(--ink, #12261a);
+}
+.p-clorofila .cl-sub { margin: 10px 0 0; font-size: 14.5px; color: var(--ink-2, #5b6573); }
+
+/* el NUMERO que CUENTA de 0 a 60 cuando el cliente llega (James, 10-sep).
+   Antes se llenaba de verde con un degradado: no se entendia que estaba
+   pasando y a medio camino el numero quedaba a medias. Ahora cuenta y ya. */
+.p-clorofila .cl-gigante { text-align: center; margin: 16px 0 4px; }
+.p-clorofila .cl-num {
+  display: inline-block; font-size: clamp(58px, 19vw, 104px); font-weight: 900; line-height: .92;
+  letter-spacing: -.04em; color: var(--cl-claro); max-width: 100%;
+  /* cifras de ancho fijo: si no, el numero baila mientras sube de 8 a 60 */
+  font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1;
+}
+.p-clorofila .cl-gigante small {
+  display: block; margin-top: 4px; font-size: 13px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2, #5b6573);
+}
+
+/* ---------- las tres tarjetas ---------- */
+.p-clorofila .cl-fichas { display: grid; gap: 14px; margin-top: 14px; }
+.p-clorofila .cl-fi {
+  margin: 0; border-radius: 16px; overflow: hidden;
+  background: var(--surface-2, #f4f8f5); border: 1px solid rgba(31,107,61,.14);
+}
+.p-clorofila .cl-fi img { display: block; width: 100%; height: auto; }
+.p-clorofila .cl-fi figcaption { padding: 14px 15px 16px; }
+.p-clorofila .cl-fi .cl-rot2 {
+  display: block; font-size: 11px; font-weight: 800; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--cl-claro); margin-bottom: 5px;
+}
+.p-clorofila .cl-fi b { display: block; font-size: 18px; font-weight: 900; color: var(--ink, #12261a); }
+.p-clorofila .cl-fi p { margin: 7px 0 0; font-size: 14px; line-height: 1.5; color: var(--ink-2, #5b6573); }
+
+/* ---------- entradas: de LADO, alternando ---------- */
+.p-clorofila .cl-entra-i, .p-clorofila .cl-entra-d {
+  opacity: 0; transition: opacity .62s ease, transform .62s cubic-bezier(.22,.9,.3,1);
+}
+.p-clorofila .cl-entra-i { transform: translateX(-34px); }
+.p-clorofila .cl-entra-d { transform: translateX(34px); }
+.p-clorofila .cl-sec-entra {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.22,.9,.3,1);
+}
+
+/* ---------- la ONDA del boton ---------- */
+.p-clorofila .btn-comprar, .p-clorofila .cta, .p-clorofila button[type="submit"] { position: relative; overflow: hidden; }
+.p-clorofila .btn-comprar::after, .p-clorofila .cta::after, .p-clorofila button[type="submit"]::after {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 12px; height: 12px;
+  border-radius: 50%; background: rgba(255,255,255,.42);
+  transform: translate(-50%, -50%) scale(0); animation: cl-onda 2.9s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes cl-onda {
+  0%   { transform: translate(-50%,-50%) scale(0); opacity: .7 }
+  70%  { opacity: .12 }
+  100% { transform: translate(-50%,-50%) scale(26); opacity: 0 }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p-clorofila .cl-marea, .p-clorofila .cl-gotas i { animation: none; }
+  .p-clorofila .cl-cae { animation: none; opacity: 1; transform: none; }
+  .p-clorofila .cl-entra-i, .p-clorofila .cl-entra-d, .p-clorofila .cl-sec-entra { opacity: 1; transform: none; }
+  .p-clorofila .btn-comprar::after, .p-clorofila .cta::after, .p-clorofila button[type="submit"]::after { animation: none; opacity: 0; }
+}
+
+/* ---------- el -23% LATE: un latido verde cada 2,6 s, como la gota cayendo ----------
+   Lo pidio James el 15-sep ("ponle efecto" al descuento). Solo transform y
+   sombra: no mueve el resto del precio. */
+.p-clorofila .off {
+  display: inline-block; transform-origin: 50% 50%;
+  animation: cl-late 2.6s ease-in-out 1.2s infinite;
+  box-shadow: 0 0 0 0 rgba(90,158,47,.55);
+}
+@keyframes cl-late {
+  0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(90,158,47,.55); }
+  12%  { transform: scale(1.14) rotate(-3deg); }
+  24%  { transform: scale(1);    box-shadow: 0 0 0 10px rgba(90,158,47,0); }
+  100% { transform: scale(1);    box-shadow: 0 0 0 10px rgba(90,158,47,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .p-clorofila .off { animation: none; box-shadow: none; }
+}
+
+/* la BAJADA va debajo del hero, no encima del producto (James, 15-sep) */
+.p-clorofila .cl-bajada {
+  margin: 0 0 14px; padding: 0 16px; font-size: 15.5px; line-height: 1.5;
+  color: var(--ink-2, #3f4a45); max-width: 40ch;
+}
+
+/* ---------- el TITULO letra por letra ----------
+   Cada letra baja, se enfoca y suelta un destello verde; la palabra entera va
+   en .cl-w para que nunca se parta a mitad. .cl-listo es la marca que enciende
+   la animacion; el js la quita a los 5 s (red de seguridad). */
+.p-clorofila .cl-w { display: inline-block; white-space: nowrap; }
+.p-clorofila .cl-l { display: inline-block; }
+.p-clorofila .cl-listo .cl-l {
+  opacity: 0;
+  animation: cl-letra .62s cubic-bezier(.2,.85,.3,1) both;
+  animation-delay: calc(.25s + var(--k) * 55ms);
+}
+@keyframes cl-letra {
+  0%   { opacity: 0; transform: translateY(-.35em) scale(1.18); filter: blur(3px); }
+  55%  { opacity: 1; transform: none; filter: blur(0); text-shadow: 0 0 16px rgba(123,211,137,.95), 0 0 2px #fff; }
+  100% { opacity: 1; text-shadow: 0 2px 18px rgba(0,0,0,.45); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .p-clorofila .cl-listo .cl-l { animation: none; opacity: 1; }
+}
