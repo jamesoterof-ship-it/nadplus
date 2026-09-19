@@ -41,6 +41,35 @@
   <p>El medio más rápido es nuestro <a href="https://wa.me/56964775539">WhatsApp</a>. Te ayudamos con pedidos, seguimiento de envíos, devoluciones y cualquier consulta.</p>
 
   <p style="margin-top:24px"><a href="index.html" style="font-weight:800">← Volver a la tienda</a></p>
+
+  <h2>Escríbenos</h2>
+  <p>Completa el formulario y te respondemos por WhatsApp o correo dentro del horario de atención.</p>
+  <form id="fContacto" style="display:grid;gap:12px;max-width:520px;margin:10px 0 6px">
+    <label style="display:grid;gap:5px;font-size:14px;font-weight:600">Nombre
+      <input id="cNombre" required placeholder="Tu nombre" style="padding:11px 12px;border:1.5px solid #dcdcdc;border-radius:10px;font:inherit"></label>
+    <label style="display:grid;gap:5px;font-size:14px;font-weight:600">Correo o WhatsApp
+      <input id="cContacto" required placeholder="correo@ejemplo.cl o +56 9 ..." style="padding:11px 12px;border:1.5px solid #dcdcdc;border-radius:10px;font:inherit"></label>
+    <label style="display:grid;gap:5px;font-size:14px;font-weight:600">Número de pedido <span style="font-weight:400;color:#777">(opcional)</span>
+      <input id="cPedido" placeholder="Si ya compraste" style="padding:11px 12px;border:1.5px solid #dcdcdc;border-radius:10px;font:inherit"></label>
+    <label style="display:grid;gap:5px;font-size:14px;font-weight:600">Mensaje
+      <textarea id="cMsg" required rows="4" placeholder="Cuéntanos en qué te ayudamos" style="padding:11px 12px;border:1.5px solid #dcdcdc;border-radius:10px;font:inherit"></textarea></label>
+    <button type="submit" style="padding:13px 16px;border:0;border-radius:10px;background:#0f7a4a;color:#fff;font-weight:800;font-size:15px;cursor:pointer">Enviar mensaje</button>
+    <p id="cOk" style="display:none;color:#0f7a4a;font-weight:700;font-size:14px">Gracias, abrimos WhatsApp con tu mensaje para que lo envíes.</p>
+  </form>
+  <script>
+  document.getElementById("fContacto").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var v = function (id) { return (document.getElementById(id).value || "").trim(); };
+    var NL = String.fromCharCode(10);
+    var txt = "Hola, escribo desde la tienda." + NL
+      + "Nombre: " + v("cNombre") + NL
+      + "Contacto: " + v("cContacto") + NL
+      + (v("cPedido") ? "Pedido: " + v("cPedido") + NL : "")
+      + "Mensaje: " + v("cMsg");
+    document.getElementById("cOk").style.display = "block";
+    window.open("https://wa.me/56964775539?text=" + encodeURIComponent(txt), "_blank", "noopener");
+  });
+  </script>
 </main>
 <footer class="legal-foot">
   <div>© <span id="y"></span> Jaye Group · Chile</div>
