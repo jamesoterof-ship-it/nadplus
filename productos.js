@@ -722,3 +722,10 @@ window.PRECIOS_APROBADOS = [
   24500, 29500, 41500,   /* clorofila liquida: 1 · 2 · 3 frascos (James, 10-sep) */
   24500, 29500, 39500,   /* lymphoria drenaje: 1 · 2 · 3 frascos (James, 11-sep) */
 ];
+
+/* 19-09 · Esta tienda (nad.jayegroupchile.store) NO vende suplementos:
+   las pasarelas los tratan como rubro restringido. La clorofila, el drenaje y
+   los parches siguen en jayegroup.com.co. Para devolverlos, borrar este bloque. */
+window.PRODUCTOS = (window.PRODUCTOS || []).filter(function (p) {
+  return ['clorofila', 'lymphoria', 'kinoki'].indexOf(p.id) < 0;
+});
