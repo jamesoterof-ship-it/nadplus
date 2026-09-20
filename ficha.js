@@ -103,7 +103,7 @@
     content_ids:[p.id], value:p.packs[0].precio, currency:'CLP' }); } catch (e) {}   // lo usa efectos.js para marcar la categoria
   document.title = p.nombre + ' · Jaye Group Chile';
   var meta = document.querySelector('meta[name="description"]');
-  if (meta && p.sub) meta.setAttribute('content', p.sub + ' · Envío gratis a todo Chile, pagas al recibir.');
+  if (meta && p.sub) meta.setAttribute('content', p.sub + ' · Envío gratis a todo Chile, paga en línea o al recibir.');
   /* El color del producto manda en botones y secciones. Si no trae, se queda
      el rojo de siempre. Tambien se calcula un tono mas oscuro para sombras y
      degradados. */
@@ -367,8 +367,8 @@
   /* Los packs viven SOLO en el formulario: arriba repetian el precio grande
      y estorbaban. Aca queda el boton que baja al pedido. */
   var promo = '<section class="bloque">'
-    + '<button class="cta rojo rebota" id="btnArriba">Lo quiero, pago al recibir</button>'
-    + '<p class="ctaSub">Envío gratis · No pagas nada por adelantado</p></section>';
+    + '<button class="cta rojo rebota" id="btnArriba">Lo quiero</button>'
+    + '<p class="ctaSub">Envío gratis · Paga en línea o al recibir</p></section>';
 
   /* ---------- PROMOCION · el pack que se empuja, con contador ----------
      Arriba el cliente ve el precio de salida. Aca ve la oferta de verdad:
@@ -483,7 +483,7 @@
       + (p.sub ? '<p>' + esc(p.sub) + '</p>' : '')
       + (pun.length ? '<ul>' + pun.map(function (x, i) {
           return '<li style="--i:' + i + '">' + esc(x) + '</li>'; }).join('') + '</ul>' : '')
-      + '<p style="margin-top:16px">Desde <b>' + pesos(min.precio) + '</b> · envío gratis y pagas cuando lo recibes en tu casa.</p>'
+      + '<p style="margin-top:16px">Desde <b>' + pesos(min.precio) + '</b> · envío gratis y eliges pagar en línea o al recibir en tu casa.</p>'
       + '<a class="cta azul" href="#pedir" style="margin-top:14px">Pedir el mío ahora</a>'
       + '</section>';
   }
@@ -494,7 +494,7 @@
     + '<div class="nom">Starken</div><small>Cobertura nacional</small></div>'
     + '<div class="sello"><img src="img/sello-bluexpress.webp" alt="Blue Express" onerror="this.style.display=\'none\'">'
     + '<div class="nom">Blue Express</div><small>Entrega a domicilio</small></div>'
-    + '<div class="sello"><div class="nom">Pago al recibir</div><small>Pagas cuando el producto está en tus manos</small></div>'
+    + '<div class="sello"><div class="nom">Tú eliges cómo pagar</div><small>En línea con tarjeta o al recibir el producto</small></div>'
     + '<div class="sello"><div class="nom">30 días</div><small>Garantía de satisfacción</small></div>'
     + '</div></section>';
 
@@ -622,7 +622,7 @@
       + '</svg></div>'
       + '<h2 class="tit2">Garantía de satisfacción</h2>'
       + '<p class="sub2">Si no quedas conforme, te devolvemos tu dinero dentro de los primeros 30 días. Sin preguntas.</p>'
-      + '<div class="gar-chips"><span>Devolución 100%</span><span>Sin preguntas</span><span>Pago al recibir</span></div>'
+      + '<div class="gar-chips"><span>Devolución 100%</span><span>Sin preguntas</span><span>Paga en línea o al recibir</span></div>'
       + '</section>';
   }
 
@@ -663,11 +663,11 @@
   /* el bloque del sellador: mismo aspecto de los packs, pero aparte */
   var kSel = p.packs[elegido];
   var formulario = '<section class="form" id="pedir" data-rv><h2>Pide el tuyo</h2>'
-    + '<p class="baj">Lo despachamos hoy. Pagas cuando lo recibes.</p>'
+    + '<p class="baj">Lo despachamos hoy. Elige pagar ahora con tarjeta o al recibir.</p>'
     + '<div class="formcard">'
     + '<div class="cod-badge">'
     + '<svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2.5"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/></svg>'
-    + ' Pago 100% seguro contra entrega</div>'
+    + ' Pago 100% seguro: en línea o contra entrega</div>'
     + '<div class="packs" id="packsForm">' + packsHTML() + '</div>'
     + '<div class="summary">'
     + '<div class="r"><span>Subtotal</span><span id="sumSub">' + pesos(kSel.antes || kSel.precio) + '</span></div>'
@@ -711,7 +711,7 @@
     + '<div class="field"><label for="fCorreo">Correo <span class="opc">(opcional)</span></label><input id="fCorreo" type="email" inputmode="email" placeholder="Ej: maria@gmail.com"></div>'
     + '<div class="aviso" id="fErr"></div>'
     + '<button type="submit" class="cta rojo rebota">Comprar — pago al recibir</button>'
-    + '<p class="formnote">No pagas nada ahora. Te escribimos por WhatsApp para coordinar la entrega.</p>'
+    + '<p class="formnote">Si eliges pago al recibir, no pagas nada ahora. Te escribimos por WhatsApp para coordinar la entrega.</p>'
     /* Salida para el que se traba llenando el formulario. Hoy 6 personas
        llegaron hasta aca en la ficha de la ducha y solo 1 lo mando: si algo
        no les calza —su comuna no aparece, la direccion no se la acepta— no
@@ -746,7 +746,7 @@
       + '<div style="height:9px;border-radius:9px;background:rgba(0,0,0,.09);overflow:hidden">'
       + '<div class="esc-barra" style="height:100%;width:0;border-radius:9px;background:var(--acento);transition:width 1.1s cubic-bezier(.2,.8,.2,1)" data-w="' + pct + '"></div></div>'
       + '<p style="margin:11px 0 0;font-size:13.5px;line-height:1.5;color:#4a4a4a">'
-      + esc(e.nota || 'Se despacha por orden de pedido y pagas cuando la recibes.') + '</p>'
+      + esc(e.nota || 'Se despacha por orden de pedido. Pagas en línea o al recibir.') + '</p>'
       + '</div></section>';
   }
 
@@ -786,7 +786,7 @@
         }).join('')
       + '</div>'
       + '<p style="margin:12px 0 16px;font-size:15.5px;line-height:1.55;color:#333">' + esc(m.texto || '') + '</p>'
-      + '<a class="cta" href="#pedir" style="display:block;text-align:center">' + esc(m.boton || 'Lo quiero, pago al recibir') + '</a>'
+      + '<a class="cta" href="#pedir" style="display:block;text-align:center">' + esc(m.boton || 'Lo quiero') + '</a>'
       + '</section>';
   }
 
@@ -849,7 +849,7 @@
     sb.id = 'stickycta';
     var bt = document.createElement('button');
     bt.className = 'btn-flota';
-    bt.textContent = 'Pedir ahora — pago contra entrega';
+    bt.textContent = 'Pedir ahora';
     bt.addEventListener('click', function () {
       document.getElementById('pedir').scrollIntoView({ behavior: 'smooth' });
     });
@@ -1261,7 +1261,7 @@
       }
       $('pedir').innerHTML = '<div class="listo"><h3>Pedido recibido</h3>'
         + '<p>Gracias, ' + esc(g('fNombre').split(' ')[0]) + '. Te escribimos por WhatsApp al ' + esc(indic) + ' ' + esc(tel)
-        + ' para confirmar el despacho.<br>Pagas cuando lo recibes.</p></div>';
+        + ' para confirmar el despacho.<br>Paga en línea o al recibir.</p></div>';
       $('pedir').scrollIntoView({ behavior: 'smooth', block: 'center' });
 
     /* VENTANA POST-COMPRA: el Gel Sellador.
@@ -1462,7 +1462,7 @@ contarNumeros();
     ov.innerHTML = '<div class="exit-card"><button class="exit-x" aria-label="Cerrar">&times;</button>'
       + '<div class="em">🎁</div><h3>¡Espera! No te vayas todavía</h3>'
       + '<p>Esta promoción con <b>envío gratis</b> es <b>solo por hoy</b>. '
-      + 'No pagas nada ahora: <b>pagas al recibir</b> en tu casa.</p>'
+      + 'Eliges cómo pagar: <b>en línea con tarjeta o al recibir</b> en tu casa.</p>'
       + '<button class="exit-cta">Quiero completar mi pedido</button>'
       + '<a class="exit-wa" href="' + WA + '" target="_blank" rel="noopener">o escríbenos por WhatsApp</a></div>';
     document.body.appendChild(ov);
@@ -1614,7 +1614,7 @@ function abrirUpsell(nombre, telWA, upsell) {
         : '<p class="sub">Antes de despachar tu paquete, agr\u00e9galo con un toque. '
           + 'Va en el mismo env\u00edo, sin costo extra de despacho.</p>')
     + '<div class="precio">+' + money(uno)
-    +   '<small>lo pagas al recibir, junto con tu pedido</small></div>'
+    +   '<small>lo pagas junto con tu pedido</small></div>'
     + '<div class="upbtns">'
     +   '<button class="upsi" id="upSi">S\u00cd, AGREGARLO A MI PEDIDO</button>'
     +   '<button class="updos" id="upDos">Mejor dos por ' + money(dos)
