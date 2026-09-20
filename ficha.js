@@ -1636,7 +1636,7 @@ function abrirUpsell(nombre, telWA, upsell) {
         ov.querySelector('.upcard').innerHTML =
           '<div class="cab"><h3>\u00a1Agregado a tu pedido!</h3></div>'
           + '<p class="sub">Tu ' + U.nombre + ' va en el mismo env\u00edo. '
-          + 'Lo pagas al recibir, junto con lo dem\u00e1s.</p>'
+          + 'Lo pagas junto con lo dem\u00e1s.</p>'
           + '<div class="upbtns"><button class="upsi" id="upOk">Listo</button></div>';
         ov.querySelector('#upOk').addEventListener('click', cerrar);
       });
