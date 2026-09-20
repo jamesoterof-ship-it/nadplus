@@ -69,7 +69,7 @@ window.PRODUCTOS = [
       titulo: '¿Le sirve tu funda de siempre?',
       filas: [['60 cm','de largo'],['40 cm','de ancho'],['10-13 cm','de alto según la zona']],
       texto: 'Sí. Mide 60 x 40, que es la medida estándar de almohada en Chile, así que le entra cualquier funda que ya tengas en la casa. No tienes que comprar nada aparte.',
-      boton: 'Lo quiero, pago al recibir',
+      boton: 'Lo quiero',
     },
     fotosResenas: ['img/resenas-almohada/ra1.webp?v=1','img/resenas-almohada/ra2.webp?v=1','img/resenas-almohada/ra3.webp?v=1','img/resenas-almohada/ra4.webp?v=1','img/resenas-almohada/ra5.webp?v=1','img/resenas-almohada/ra6.webp?v=1','img/resenas-almohada/ra7.webp?v=1','img/resenas-almohada/ra8.webp?v=1','img/resenas-almohada/ra9.webp?v=1','img/resenas-almohada/ra10.webp?v=1'],
     antesDespues: 'img/prod-almohada-ba.webp?v=2',
@@ -635,7 +635,7 @@ window.PRODUCTOS = [
       'Cuatro hierbas: cleavers, trébol rojo, stillingia y fresno espinoso',
       'Se toma en gotas: nada de cápsulas ni de polvos con grumos',
       'Sabor a miel · vegano, sin gluten y sin transgénicos',
-      'Pagas al recibir, con envío gratis a todo Chile',
+      'Paga en línea o al recibir, con envío gratis a todo Chile',
     ],
     packs: [
       /* mismo criterio de la clorofila: el «antes» del primer pack es un 30%
@@ -696,7 +696,7 @@ window.PRODUCTOS = [
 window.PREGUNTAS = [
   { q: '¿Cuándo me llega?', a: 'En Santiago llega en 2 a 3 días hábiles y en regiones entre 2 y 4 días hábiles. Apenas se despacha te mandamos el número de guía por WhatsApp para que lo sigas.' },
   { q: '¿Tiene garantía?', a: 'Sí. Tienes 30 días desde que lo recibes para pedir la devolución si no quedas conforme. Revisa la Política de Reembolso.' },
-  { q: '¿Cómo pago?', a: 'Pagas en efectivo cuando recibes el producto, en tu propia dirección. No pagas nada por adelantado ni dejas datos de tarjeta.' },
+  { q: '¿Cómo pago?', a: 'Tú eliges cómo pagar. Puedes pagar al recibir, en efectivo o con tarjeta al repartidor, o pagar ahora en línea con tarjeta de débito o crédito y ahorrar el 7%. En los dos casos el envío es gratis.' },
   { q: '¿Llegan a mi comuna?', a: 'Despachamos a todo Chile, a todas las regiones y comunas. Si tu comuna es de zona lejana puede demorar un poco más.' },
   { q: '¿Puedo revisarlo antes de pagar?', a: 'Sí. Recibes el paquete, lo revisas y recién ahí pagas.' },
   { q: '¿El envío tiene costo?', a: 'No. El envío es gratis a todo Chile. Solo pagas el valor del producto.' },
