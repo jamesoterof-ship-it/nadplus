@@ -677,7 +677,7 @@
     + '</div>'
     + '<div class="pagosel" id="pagoSel">'
     +   '<button type="button" class="po on" data-p="cod"><b>Pago al recibir</b><small>Pagas cuando el producto llega a tu casa</small></button>'
-    +   '<button type="button" class="po" data-p="card"><b>Pago con tarjeta <i>-7%</i></b><small>Pagas ahora con debito o credito y ahorras</small></button>'
+    +   '<button type="button" class="po" data-p="card"><b>Pago con tarjeta <i>-7%</i></b><small>Pagas ahora con débito o crédito y ahorras el 7%</small></button>'
     + '</div>'
     + '<form id="fPedido" novalidate>'
     + '<div class="field"><label for="fNombre">Nombre completo</label><input id="fNombre" autocomplete="name" placeholder="Ej: María González"><div class="err">Escribe tu nombre.</div></div>'

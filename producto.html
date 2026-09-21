@@ -484,6 +484,28 @@
 .summary .r{display:flex;justify-content:space-between;padding:5px 0}
 .summary .desc{color:#FF8FA0}
 .summary .free{color:var(--oro);font-weight:700}
+/* forma de pago: dos tarjetas con su circulo, igual que los packs. La elegida
+   queda con borde negro; el -7% va en una pildora para que se lea de un vistazo. */
+.pagosel{display:grid;gap:10px;margin:0 0 20px}
+.pagosel::before{content:'Forma de pago';font-size:13px;font-weight:700;color:#6B665C}
+.pagosel .po{position:relative;display:block;width:100%;text-align:left;cursor:pointer;
+  font-family:inherit;color:#15130F;background:#fff;border:1px solid #D6D4CF;border-radius:13px;
+  padding:14px 14px 14px 46px;min-height:64px;transition:border-color .18s,box-shadow .18s,background .18s;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.pagosel .po::before{content:'';position:absolute;left:14px;top:50%;width:18px;height:18px;margin-top:-10px;
+  border:2px solid #C9C5BC;border-radius:50%;background:#fff;transition:border-color .18s}
+.pagosel .po::after{content:'';position:absolute;left:20.5px;top:50%;width:9px;height:9px;margin-top:-3.5px;
+  border-radius:50%;background:#15130F;transform:scale(0);transition:transform .18s}
+.pagosel .po:hover{border-color:#8E897E}
+.pagosel .po:focus-visible{outline:2px solid #15130F;outline-offset:2px}
+.pagosel .po.on{border-color:#15130F;box-shadow:inset 0 0 0 1px #15130F;background:#FAF9F7}
+.pagosel .po.on::before{border-color:#15130F}
+.pagosel .po.on::after{transform:scale(1)}
+.pagosel .po b{display:block;font-size:15.5px;font-weight:700;line-height:1.25}
+.pagosel .po b i{font-style:normal;display:inline-block;margin-left:6px;padding:2px 8px;border-radius:999px;
+  background:#0F7A4A;color:#fff;font-size:12px;font-weight:800;vertical-align:1px}
+.pagosel .po small{display:block;margin-top:3px;font-size:13px;line-height:1.35;color:#6B665C;font-weight:400}
+@media (prefers-reduced-motion:reduce){.pagosel .po,.pagosel .po::before,.pagosel .po::after{transition:none}}
 .summary .tot{font-family:'Barlow Condensed','Inter',sans-serif;font-weight:800;font-size:18px;color:#fff;
   border-top:1px solid rgba(255,255,255,.14);margin-top:7px;padding-top:11px}
 .field{margin-bottom:13px}
@@ -1108,7 +1130,7 @@ window.jayePixel = (function () {
 <script src="chile-regiones.js?v=2"></script>
 <script src="resenas.js?v=14"></script>
 <script src="efectos.js?v=4"></script>
-<script src="ficha.js?v=94"></script>
+<script src="ficha.js?v=95"></script>
 <!-- GSAP, de lib/ y del propio dominio. NO se carga ScrollTrigger: para saber
      cuando algo entra en pantalla ya sirve IntersectionObserver, que viene en
      el navegador y no pesa. Va al final para no frenar la pintura. -->
