@@ -47,7 +47,7 @@ window.PRODUCTOS = [
     video: 'img/almohada.mp4?v=3',
     heroEfecto: true,
     escasez: { hoy: 50, mejorDia: 173, quedan: 1054,
-      nota: 'Es de las que más rota en bodega. Se despacha por orden de pedido y pagas recién cuando la tienes en la mano.' },
+      nota: 'Es de las que más rota en bodega. Se despacha por orden de pedido. Pagas en línea o al recibir.' },
     zonas: {
       img: 'img/prod-almohada.webp?v=1',
       /* foto SIN los rotulos del proveedor: sobre ella van los puntos que se
