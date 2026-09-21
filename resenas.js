@@ -571,7 +571,11 @@
     return out;
   }
 
-  window.RESENAS = generar();
+  /* Esta tienda no vende suplementos (ver el filtro al final de productos.js):
+     sus reseñas tampoco se muestran. */
+  window.RESENAS = generar().filter(function (r) {
+    return !/clorofila|lymphoria|kinoki/i.test(r.producto || '');
+  });
   window.RESENAS_PROMEDIO = (window.RESENAS.reduce(function (a, r) { return a + r.estrellas; }, 0)
                              / window.RESENAS.length).toFixed(1);
 })();
